@@ -1,0 +1,2654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>CHALK · Coach Workout Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* CHALK — Coach's strength platform
+   Athletic, high-contrast, gym-floor energy.
+   Type: Inter Tight (UI), Archivo Black (display), JetBrains Mono (numbers)
+*/
+
+:root {
+  --bg: #0B0B0C;
+  --bg-1: #131315;
+  --bg-2: #1A1A1D;
+  --bg-3: #232327;
+  --line: #2A2A2F;
+  --line-2: #36363C;
+  --ink: #F5F4F0;
+  --ink-2: #B5B3AB;
+  --ink-3: #807E76;
+  --ink-4: #54534D;
+  --accent: #E8FF3A;        /* electric lime */
+  --accent-ink: #0B0B0C;
+  --accent-2: #FF6B2C;      /* warning orange */
+  --good: #3AE07A;
+  --warn: #FFB23A;
+  --bad: #FF4D4D;
+}
+
+[data-theme="light"] {
+  --bg: #F5F4F0;
+  --bg-1: #ECEAE3;
+  --bg-2: #E2DFD6;
+  --bg-3: #D6D2C7;
+  --line: #C8C3B5;
+  --line-2: #B0AB9B;
+  --ink: #15140F;
+  --ink-2: #45433C;
+  --ink-3: #6F6C61;
+  --ink-4: #908C7F;
+  --accent: #1E1E1E;
+  --accent-ink: #E8FF3A;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter Tight', -apple-system, system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+.font-display {
+  font-family: 'Archivo Black', 'Inter Tight', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.font-mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ─── App shell ──────────────────────────────────────────────── */
+.app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  background: var(--bg-1);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 14px;
+  gap: 22px;
+  overflow-y: auto;
+}
+
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px 6px;
+}
+.sb-brand-mark {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 14px;
+  border-radius: 4px;
+  letter-spacing: -0.02em;
+}
+.sb-brand-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.02em;
+}
+.sb-brand-sub { font-size: 9px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; }
+
+.sb-section-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  padding: 0 8px 6px;
+  font-weight: 600;
+}
+
+.sb-nav { display: flex; flex-direction: column; gap: 1px; }
+.sb-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  border: 0; background: transparent; text-align: left; width: 100%;
+  font-family: inherit;
+}
+.sb-item:hover { background: var(--bg-2); color: var(--ink); }
+.sb-item[data-active="true"] {
+  background: var(--bg-3);
+  color: var(--ink);
+}
+.sb-item-icon { width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; opacity: 0.85; }
+.sb-item-count { margin-left: auto; font-size: 10.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+.sb-clients { display: flex; flex-direction: column; gap: 1px; max-height: 260px; overflow-y: auto; padding-right: 4px; }
+.sb-client-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  border: 0; background: transparent; text-align: left; width: 100%;
+  font-family: inherit;
+}
+.sb-client-row:hover { background: var(--bg-2); color: var(--ink); }
+.sb-client-row[data-active="true"] { background: var(--bg-3); color: var(--ink); }
+.sb-client-avatar {
+  width: 22px; height: 22px; border-radius: 4px;
+  background: var(--bg-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+  color: var(--ink);
+}
+.sb-client-status {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ink-4);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.sb-client-status[data-state="active"] { background: var(--good); }
+.sb-client-status[data-state="warn"] { background: var(--warn); }
+
+.sb-coach {
+  margin-top: auto;
+  padding: 10px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.sb-coach-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: var(--accent-ink);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 11px;
+  font-family: 'Archivo Black', sans-serif;
+}
+.sb-coach-name { font-size: 12.5px; font-weight: 600; }
+.sb-coach-role { font-size: 10px; color: var(--ink-3); letter-spacing: 0.04em; }
+
+/* ─── Main area ──────────────────────────────────────────────── */
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.topbar {
+  height: 52px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  gap: 14px;
+  flex-shrink: 0;
+  background: var(--bg);
+}
+.topbar-crumbs { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--ink-3); }
+.topbar-crumbs b { color: var(--ink); font-weight: 600; }
+.topbar-crumbs-sep { color: var(--ink-4); }
+
+.topbar-spacer { flex: 1; }
+
+.topbar-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: var(--ink-3);
+  width: 240px;
+}
+
+.topbar-presence {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--ink-3);
+}
+.presence-dots { display: flex; }
+.presence-dots .sb-coach-avatar {
+  width: 22px; height: 22px;
+  border: 2px solid var(--bg);
+  margin-left: -6px;
+  font-size: 9px;
+}
+.presence-dots .sb-coach-avatar:first-child { margin-left: 0; }
+
+.topbar-sync {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 10.5px; color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--good); }
+
+.btn {
+  appearance: none; border: 0;
+  background: var(--accent); color: var(--accent-ink);
+  font-family: inherit; font-weight: 700; font-size: 12px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  padding: 8px 14px; border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn.btn-secondary { background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); }
+.btn.btn-secondary:hover { background: var(--bg-3); }
+.btn.btn-ghost { background: transparent; color: var(--ink-2); padding: 6px 10px; }
+.btn.btn-ghost:hover { background: var(--bg-2); color: var(--ink); }
+.btn.btn-sm { padding: 5px 9px; font-size: 10.5px; }
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ─── Generic ────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.card-pad { padding: 16px 18px; }
+
+.kicker {
+  font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
+}
+
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 7px; border-radius: 3px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--bg-3); color: var(--ink-2);
+}
+.pill[data-tone="accent"] { background: var(--accent); color: var(--accent-ink); }
+.pill[data-tone="good"] { background: rgba(58,224,122,.15); color: var(--good); }
+.pill[data-tone="warn"] { background: rgba(255,178,58,.15); color: var(--warn); }
+.pill[data-tone="bad"] { background: rgba(255,77,77,.15); color: var(--bad); }
+.pill[data-tone="line"] { background: transparent; border: 1px solid var(--line-2); color: var(--ink-2); }
+
+.divider { height: 1px; background: var(--line); width: 100%; }
+
+/* Scrollbars (dark) */
+.content::-webkit-scrollbar, .sb-clients::-webkit-scrollbar, .sidebar::-webkit-scrollbar { width: 10px; height: 10px; }
+.content::-webkit-scrollbar-track, .sb-clients::-webkit-scrollbar-track, .sidebar::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb, .sb-clients::-webkit-scrollbar-thumb, .sidebar::-webkit-scrollbar-thumb {
+  background: var(--bg-3);
+  border: 2px solid var(--bg);
+  border-radius: 5px;
+}
+.content::-webkit-scrollbar-thumb:hover { background: var(--line-2); }
+
+/* ─── Roster (dashboard) ─────────────────────────────────────── */
+.roster {
+  padding: 26px 32px 60px;
+  max-width: 1600px;
+}
+.roster-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 28px;
+}
+.roster-title { font-size: 36px; font-family: 'Archivo Black', sans-serif; line-height: 1; letter-spacing: -0.01em; }
+.roster-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+
+.roster-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-label { font-size: 10px; color: var(--ink-3); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+.stat-value { font-family: 'Archivo Black', sans-serif; font-size: 32px; line-height: 1; letter-spacing: -0.02em; }
+.stat-trend { font-size: 11px; color: var(--ink-2); display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+.stat-trend[data-tone="good"] { color: var(--good); }
+.stat-trend[data-tone="bad"] { color: var(--bad); }
+
+.roster-section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 8px 0 12px;
+}
+.roster-section-title { font-size: 12.5px; font-weight: 600; }
+.roster-section-meta { font-size: 11px; color: var(--ink-3); }
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.client-card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color .14s, transform .14s;
+  position: relative;
+  overflow: hidden;
+}
+.client-card:hover { border-color: var(--line-2); transform: translateY(-1px); }
+.client-card-accent {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--accent);
+}
+.client-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.client-card-avatar {
+  width: 36px; height: 36px; border-radius: 6px;
+  background: var(--bg-3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Archivo Black', sans-serif; font-size: 13px;
+  letter-spacing: -0.02em;
+}
+.client-card-name { font-weight: 600; font-size: 14px; }
+.client-card-goal { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+
+.client-card-block {
+  font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ink-2); font-weight: 600;
+  padding: 4px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10px;
+  display: flex; justify-content: space-between;
+}
+.client-card-week { color: var(--ink-3); font-family: 'JetBrains Mono', monospace; }
+
+.client-card-stats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cc-stat-label { font-size: 9px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+.cc-stat-value { font-family: 'Archivo Black', sans-serif; font-size: 18px; line-height: 1; letter-spacing: -0.01em; }
+.cc-stat-unit { font-size: 9.5px; color: var(--ink-3); margin-left: 2px; font-family: inherit; font-weight: 400; letter-spacing: 0; }
+
+.adherence-bar {
+  height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;
+  margin-top: 4px;
+}
+.adherence-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+.client-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 10.5px; color: var(--ink-3);
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.shared-dots { display: flex; }
+.shared-dots .sb-coach-avatar { width: 18px; height: 18px; font-size: 8px; margin-left: -4px; border: 2px solid var(--bg-1); }
+.shared-dots .sb-coach-avatar:first-child { margin-left: 0; }
+
+/* ─── Sheet view ─────────────────────────────────────────────── */
+.sheet-wrap {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  height: 100%;
+  overflow: hidden;
+}
+.sheet-main {
+  overflow-y: auto;
+  padding: 22px 28px 60px;
+}
+.sheet-side {
+  border-left: 1px solid var(--line);
+  background: var(--bg-1);
+  overflow-y: auto;
+  padding: 22px 20px 40px;
+}
+
+.client-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 18px;
+}
+.ch-id { display: flex; align-items: center; gap: 14px; }
+.ch-avatar {
+  width: 52px; height: 52px; border-radius: 8px;
+  background: var(--bg-3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Archivo Black', sans-serif; font-size: 18px;
+  letter-spacing: -0.02em;
+}
+.ch-name { font-family: 'Archivo Black', sans-serif; font-size: 24px; line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; }
+.ch-goal { font-size: 12px; color: var(--ink-3); margin-top: 5px; }
+
+.ch-meta { display: flex; align-items: center; gap: 18px; }
+.ch-meta-block {
+  display: flex; flex-direction: column; gap: 2px;
+  border-left: 1px solid var(--line);
+  padding-left: 14px;
+}
+.ch-meta-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.ch-meta-value { font-family: 'Archivo Black', sans-serif; font-size: 16px; line-height: 1; letter-spacing: -0.01em; }
+.ch-meta-value small { font-family: inherit; font-weight: 400; font-size: 11px; color: var(--ink-3); letter-spacing: 0; }
+
+/* mesocycle bar */
+.meso {
+  display: flex; align-items: stretch; gap: 4px;
+  margin-bottom: 22px;
+  padding: 12px 14px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.meso-label {
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-3); font-weight: 600;
+  display: flex; align-items: center;
+  margin-right: 14px;
+  padding-right: 14px;
+  border-right: 1px solid var(--line);
+}
+.meso-cells { display: flex; gap: 3px; flex: 1; }
+.meso-cell {
+  flex: 1; height: 22px; border-radius: 3px;
+  background: var(--bg-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  color: var(--ink-3);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.meso-cell:hover { border-color: var(--line-2); }
+.meso-cell[data-state="done"] { background: var(--bg-2); color: var(--ink-2); }
+.meso-cell[data-state="current"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.meso-cell[data-state="upcoming"] { background: var(--bg-3); }
+.meso-cell[data-state="deload"] { background: var(--bg-2); color: var(--accent); border-color: var(--accent); }
+
+/* day tabs */
+.day-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 0;
+}
+.day-tab {
+  padding: 12px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+  cursor: pointer;
+  border: 0; background: transparent;
+  font-family: inherit;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+}
+.day-tab:hover { color: var(--ink-2); }
+.day-tab[data-active="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+.day-tab-day { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); font-weight: 600; }
+.day-tab[data-active="true"] .day-tab-day { color: var(--accent); }
+.day-tab-status {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--bg-3);
+  display: inline-block; margin-left: 6px;
+}
+.day-tab-status[data-status="logged"] { background: var(--good); }
+.day-tab-status[data-status="in_progress"] { background: var(--warn); }
+
+/* ─── Sheet table ────────────────────────────────────────────── */
+.sheet {
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+  background: var(--bg-1);
+}
+
+.sheet-row-header {
+  display: grid;
+  grid-template-columns: 28px 1fr 70px 110px 80px repeat(var(--set-count, 4), 1fr) 90px 28px;
+  align-items: center;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 600;
+  height: 30px;
+}
+.sheet-row-header > div { padding: 0 8px; border-right: 1px solid var(--line); height: 100%; display: flex; align-items: center; }
+.sheet-row-header > div:last-child { border-right: 0; }
+.sheet-row-header .sh-set { justify-content: center; padding: 0; font-family: 'JetBrains Mono', monospace; }
+
+.exercise-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 70px 110px 80px repeat(var(--set-count, 4), 1fr) 90px 28px;
+  align-items: stretch;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-1);
+  min-height: 56px;
+  position: relative;
+}
+.exercise-row:last-child { border-bottom: 0; }
+.exercise-row:hover { background: var(--bg-2); }
+.exercise-row > div { padding: 8px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; }
+.exercise-row > div:last-child { border-right: 0; }
+
+.row-handle {
+  color: var(--ink-4); font-size: 14px; cursor: grab; user-select: none;
+  align-items: center !important; justify-content: center;
+  padding: 0 !important;
+}
+.exercise-name { font-weight: 600; font-size: 13px; }
+.exercise-pattern {
+  font-size: 9.5px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase;
+  margin-top: 2px;
+  display: flex; gap: 6px;
+}
+.exercise-pattern span:not(:first-child)::before { content: "·"; margin-right: 6px; color: var(--ink-4); }
+
+.target-cell { text-align: center; align-items: center !important; }
+.target-reps { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--ink); font-weight: 600; }
+.target-label { font-size: 9px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.last-cell { align-items: center !important; }
+.last-weight { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.last-meta { font-size: 9.5px; color: var(--ink-3); margin-top: 1px; }
+
+.suggestion-cell {
+  align-items: center !important;
+  background: rgba(232,255,58,0.06);
+}
+.suggestion-weight { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent); font-weight: 700; }
+.suggestion-label { font-size: 9px; color: var(--accent); opacity: 0.75; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+
+/* set cell */
+.set-cell {
+  align-items: stretch !important;
+  justify-content: stretch !important;
+  padding: 0 !important;
+  position: relative;
+}
+.set-cell-inner {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1px;
+  height: 100%; width: 100%;
+  padding: 4px 6px;
+  cursor: pointer;
+  position: relative;
+}
+.set-cell[data-done="true"] .set-cell-inner { background: rgba(58,224,122,0.06); }
+.set-input {
+  background: transparent; border: 0; color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center; font-size: 13px; font-weight: 600;
+  width: 100%; padding: 0; outline: none;
+  -moz-appearance: textfield;
+}
+.set-input::-webkit-inner-spin-button, .set-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.set-input:focus { color: var(--accent); }
+.set-cell[data-done="true"] .set-input { color: var(--good); }
+.set-meta-row {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 9.5px; color: var(--ink-3);
+  font-family: 'JetBrains Mono', monospace;
+}
+.set-meta-rpe { color: var(--ink-2); }
+.set-checkbox {
+  position: absolute; top: 4px; right: 4px;
+  width: 12px; height: 12px;
+  border-radius: 2px; border: 1px solid var(--line-2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-1);
+}
+.set-cell[data-done="true"] .set-checkbox { background: var(--good); border-color: var(--good); color: var(--accent-ink); }
+
+.actions-cell { align-items: center !important; justify-content: center; }
+.action-btn {
+  appearance: none; border: 0; background: transparent;
+  color: var(--ink-3); padding: 4px; font-family: inherit;
+  font-size: 11px; cursor: pointer; line-height: 1;
+}
+.action-btn:hover { color: var(--ink); }
+
+.row-note {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  padding: 8px 16px 8px 38px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.row-note-label {
+  font-size: 9px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700; padding-top: 1px; flex-shrink: 0;
+}
+
+.add-exercise-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border-top: 1px solid var(--line);
+}
+.add-exercise-btn {
+  appearance: none; border: 1px dashed var(--line-2);
+  background: transparent;
+  color: var(--ink-3);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.add-exercise-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── Right rail (dashboard widgets + notes) ─────────────────── */
+.rail-section { margin-bottom: 28px; }
+.rail-title {
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.rail-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.rail-stat-row { display: flex; justify-content: space-between; align-items: baseline; }
+.rail-stat-label { font-size: 11px; color: var(--ink-3); }
+.rail-stat-value { font-family: 'Archivo Black', sans-serif; font-size: 22px; line-height: 1; letter-spacing: -0.01em; }
+.rail-stat-value small { font-size: 11px; color: var(--ink-3); margin-left: 3px; font-family: inherit; font-weight: 400; }
+
+.note-item {
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: var(--bg-2);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.note-item-meta { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+
+.note-input {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 9px 11px;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  resize: none;
+  outline: none;
+}
+.note-input:focus { border-color: var(--line-2); }
+
+/* Volume bars */
+.vol-bar-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 11px;
+}
+.vol-bar-label { color: var(--ink-2); font-weight: 500; }
+.vol-bar-track { height: 8px; background: var(--bg-3); border-radius: 2px; overflow: hidden; }
+.vol-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+.vol-bar-val { font-family: 'JetBrains Mono', monospace; color: var(--ink-3); text-align: right; font-size: 10.5px; }
+
+/* ─── Library view ───────────────────────────────────────────── */
+.lib {
+  padding: 26px 32px 60px;
+  max-width: 1400px;
+}
+.lib-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; }
+.lib-title { font-family: 'Archivo Black', sans-serif; font-size: 36px; line-height: 1; letter-spacing: -0.01em; }
+.lib-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+
+.lib-filters {
+  display: flex; gap: 24px;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.lib-filter-group { display: flex; flex-direction: column; gap: 6px; min-width: 180px; }
+.lib-filter-label { font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; }
+.lib-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.lib-chip {
+  appearance: none; border: 1px solid var(--line-2);
+  background: transparent; color: var(--ink-2);
+  font-family: inherit; font-size: 11px; font-weight: 500;
+  padding: 4px 9px; border-radius: 3px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.lib-chip:hover { border-color: var(--ink-3); color: var(--ink); }
+.lib-chip[data-active="true"] {
+  background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+  font-weight: 700;
+}
+
+.lib-search {
+  flex: 1; min-width: 240px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.lib-search-input {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: var(--ink); font-family: inherit; font-size: 12.5px;
+  outline: none;
+}
+.lib-search-input:focus { border-color: var(--line-2); }
+
+.lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 8px;
+}
+.lib-result-meta {
+  font-size: 11px; color: var(--ink-3);
+  margin-bottom: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.lib-card {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color .12s;
+  display: flex; flex-direction: column; gap: 6px;
+  position: relative;
+}
+.lib-card:hover { border-color: var(--accent); }
+.lib-card-name { font-weight: 600; font-size: 13px; line-height: 1.2; }
+.lib-card-meta { display: flex; gap: 5px; flex-wrap: wrap; }
+.lib-card-pattern {
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); font-weight: 700;
+}
+.lib-card-muscles { font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+
+/* Pattern + level mini-icons */
+.lib-card-tags {
+  display: flex; gap: 4px; align-items: center;
+  margin-top: 4px;
+}
+.lib-mini-tag {
+  font-size: 9px; letter-spacing: 0.06em;
+  padding: 1px 5px; border-radius: 2px;
+  background: var(--bg-3); color: var(--ink-3);
+  text-transform: capitalize; font-weight: 500;
+}
+.lib-level-dot {
+  width: 5px; height: 5px; border-radius: 50%; display: inline-block;
+  margin-right: 4px;
+}
+.lib-level-dot[data-level="beginner"] { background: var(--good); }
+.lib-level-dot[data-level="intermediate"] { background: var(--warn); }
+.lib-level-dot[data-level="advanced"] { background: var(--bad); }
+
+/* ─── Volume sparkline ───────────────────────────────────────── */
+.spark {
+  height: 80px;
+  width: 100%;
+  display: block;
+}
+
+/* ─── Library picker overlay (when adding to sheet) ───────────── */
+.picker-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  padding: 40px;
+}
+.picker {
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  width: 720px; max-width: 100%;
+  max-height: 85vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.picker-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.picker-title { font-family: 'Archivo Black', sans-serif; font-size: 16px; letter-spacing: -0.01em; }
+.picker-search {
+  background: var(--bg-2); border: 1px solid var(--line);
+  padding: 7px 10px; border-radius: 4px;
+  color: var(--ink); font-family: inherit; font-size: 12px;
+  outline: none;
+  width: 100%;
+}
+.picker-filters {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.picker-list { flex: 1; overflow-y: auto; padding: 8px; }
+.picker-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  align-items: center;
+}
+.picker-item:hover { background: var(--bg-2); }
+.picker-item-name { font-size: 13px; font-weight: 500; }
+.picker-item-meta { font-size: 10.5px; color: var(--ink-3); }
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+
+// ── Settings panel helpers ───────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+function TweaksPanel({ title = 'Settings', open, onClose, children }) {
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  const dismiss = onClose;
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+
+
+// Exercise library — 150+ exercises
+// pattern: push | pull | hinge | squat | carry | core | accessory
+// equipment: barbell | dumbbell | cable | machine | bodyweight | kettlebell | band
+// level: beginner | intermediate | advanced
+
+const EXERCISES = [
+  // ── SQUAT ──────────────────────────────────────────────────────
+  { id: 'sq-back',       name: 'Back Squat',                  pattern: 'squat', equipment: 'barbell',   level: 'intermediate', muscles: ['quads','glutes'] },
+  { id: 'sq-front',      name: 'Front Squat',                 pattern: 'squat', equipment: 'barbell',   level: 'advanced',     muscles: ['quads','core'] },
+  { id: 'sq-pause',      name: 'Pause Back Squat',            pattern: 'squat', equipment: 'barbell',   level: 'advanced',     muscles: ['quads','glutes'] },
+  { id: 'sq-box',        name: 'Box Squat',                   pattern: 'squat', equipment: 'barbell',   level: 'intermediate', muscles: ['glutes','hams'] },
+  { id: 'sq-safety',     name: 'Safety Bar Squat',            pattern: 'squat', equipment: 'barbell',   level: 'intermediate', muscles: ['quads','upper back'] },
+  { id: 'sq-zercher',    name: 'Zercher Squat',               pattern: 'squat', equipment: 'barbell',   level: 'advanced',     muscles: ['quads','core'] },
+  { id: 'sq-goblet',     name: 'Goblet Squat',                pattern: 'squat', equipment: 'dumbbell',  level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-db-front',   name: 'DB Front Squat',              pattern: 'squat', equipment: 'dumbbell',  level: 'intermediate', muscles: ['quads','core'] },
+  { id: 'sq-bulg',       name: 'Bulgarian Split Squat',       pattern: 'squat', equipment: 'dumbbell',  level: 'intermediate', muscles: ['quads','glutes'] },
+  { id: 'sq-rev-lunge',  name: 'Reverse Lunge',               pattern: 'squat', equipment: 'dumbbell',  level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-fwd-lunge',  name: 'Forward Lunge',               pattern: 'squat', equipment: 'dumbbell',  level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-walking',    name: 'Walking Lunge',               pattern: 'squat', equipment: 'dumbbell',  level: 'intermediate', muscles: ['quads','glutes'] },
+  { id: 'sq-step-up',    name: 'Step-Up',                     pattern: 'squat', equipment: 'dumbbell',  level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-pistol',     name: 'Pistol Squat',                pattern: 'squat', equipment: 'bodyweight',level: 'advanced',     muscles: ['quads','glutes'] },
+  { id: 'sq-air',        name: 'Air Squat',                   pattern: 'squat', equipment: 'bodyweight',level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-jump',       name: 'Jump Squat',                  pattern: 'squat', equipment: 'bodyweight',level: 'intermediate', muscles: ['quads','glutes'] },
+  { id: 'sq-hack',       name: 'Hack Squat',                  pattern: 'squat', equipment: 'machine',   level: 'intermediate', muscles: ['quads'] },
+  { id: 'sq-leg-press',  name: 'Leg Press',                   pattern: 'squat', equipment: 'machine',   level: 'beginner',     muscles: ['quads','glutes'] },
+  { id: 'sq-pendulum',   name: 'Pendulum Squat',              pattern: 'squat', equipment: 'machine',   level: 'intermediate', muscles: ['quads'] },
+  { id: 'sq-belt',       name: 'Belt Squat',                  pattern: 'squat', equipment: 'machine',   level: 'intermediate', muscles: ['quads','glutes'] },
+
+  // ── HINGE ──────────────────────────────────────────────────────
+  { id: 'hi-dl',         name: 'Conventional Deadlift',       pattern: 'hinge', equipment: 'barbell',   level: 'advanced',     muscles: ['hams','glutes','back'] },
+  { id: 'hi-sumo',       name: 'Sumo Deadlift',               pattern: 'hinge', equipment: 'barbell',   level: 'advanced',     muscles: ['glutes','adductors'] },
+  { id: 'hi-rdl',        name: 'Romanian Deadlift',           pattern: 'hinge', equipment: 'barbell',   level: 'intermediate', muscles: ['hams','glutes'] },
+  { id: 'hi-deficit',    name: 'Deficit Deadlift',            pattern: 'hinge', equipment: 'barbell',   level: 'advanced',     muscles: ['hams','back'] },
+  { id: 'hi-block',      name: 'Block Pull',                  pattern: 'hinge', equipment: 'barbell',   level: 'advanced',     muscles: ['back','traps'] },
+  { id: 'hi-rack',       name: 'Rack Pull',                   pattern: 'hinge', equipment: 'barbell',   level: 'intermediate', muscles: ['back','traps'] },
+  { id: 'hi-pause-dl',   name: 'Paused Deadlift',             pattern: 'hinge', equipment: 'barbell',   level: 'advanced',     muscles: ['hams','glutes'] },
+  { id: 'hi-trap-bar',   name: 'Trap Bar Deadlift',           pattern: 'hinge', equipment: 'barbell',   level: 'intermediate', muscles: ['quads','glutes','back'] },
+  { id: 'hi-good',       name: 'Good Morning',                pattern: 'hinge', equipment: 'barbell',   level: 'intermediate', muscles: ['hams','lower back'] },
+  { id: 'hi-hip-thrust', name: 'Barbell Hip Thrust',          pattern: 'hinge', equipment: 'barbell',   level: 'intermediate', muscles: ['glutes'] },
+  { id: 'hi-glute-br',   name: 'Glute Bridge',                pattern: 'hinge', equipment: 'barbell',   level: 'beginner',     muscles: ['glutes'] },
+  { id: 'hi-db-rdl',     name: 'DB Romanian Deadlift',        pattern: 'hinge', equipment: 'dumbbell',  level: 'beginner',     muscles: ['hams','glutes'] },
+  { id: 'hi-sl-rdl',     name: 'Single-Leg RDL',              pattern: 'hinge', equipment: 'dumbbell',  level: 'intermediate', muscles: ['hams','glutes'] },
+  { id: 'hi-kb-swing',   name: 'Kettlebell Swing',            pattern: 'hinge', equipment: 'kettlebell',level: 'intermediate', muscles: ['glutes','hams','back'] },
+  { id: 'hi-kb-dl',      name: 'KB Suitcase Deadlift',        pattern: 'hinge', equipment: 'kettlebell',level: 'beginner',     muscles: ['hams','core'] },
+  { id: 'hi-back-ext',   name: 'Back Extension',              pattern: 'hinge', equipment: 'machine',   level: 'beginner',     muscles: ['lower back','glutes'] },
+  { id: 'hi-rev-hyper',  name: 'Reverse Hyper',               pattern: 'hinge', equipment: 'machine',   level: 'intermediate', muscles: ['glutes','lower back'] },
+  { id: 'hi-leg-curl',   name: 'Lying Leg Curl',              pattern: 'hinge', equipment: 'machine',   level: 'beginner',     muscles: ['hams'] },
+  { id: 'hi-seated-cl',  name: 'Seated Leg Curl',             pattern: 'hinge', equipment: 'machine',   level: 'beginner',     muscles: ['hams'] },
+  { id: 'hi-nordic',     name: 'Nordic Curl',                 pattern: 'hinge', equipment: 'bodyweight',level: 'advanced',     muscles: ['hams'] },
+
+  // ── PUSH (horizontal + vertical) ───────────────────────────────
+  { id: 'pu-bench',      name: 'Barbell Bench Press',         pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['chest','triceps'] },
+  { id: 'pu-incline',    name: 'Incline Barbell Bench',       pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['upper chest','triceps'] },
+  { id: 'pu-decline',    name: 'Decline Bench Press',         pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['lower chest'] },
+  { id: 'pu-close',      name: 'Close-Grip Bench',            pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['triceps','chest'] },
+  { id: 'pu-pause-b',    name: 'Pause Bench Press',           pattern: 'push',  equipment: 'barbell',   level: 'advanced',     muscles: ['chest'] },
+  { id: 'pu-floor',      name: 'Floor Press',                 pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['triceps','chest'] },
+  { id: 'pu-ohp',        name: 'Overhead Press',              pattern: 'push',  equipment: 'barbell',   level: 'intermediate', muscles: ['shoulders','triceps'] },
+  { id: 'pu-push-press', name: 'Push Press',                  pattern: 'push',  equipment: 'barbell',   level: 'advanced',     muscles: ['shoulders','triceps'] },
+  { id: 'pu-jerk',       name: 'Push Jerk',                   pattern: 'push',  equipment: 'barbell',   level: 'advanced',     muscles: ['shoulders'] },
+  { id: 'pu-z-press',    name: 'Z Press',                     pattern: 'push',  equipment: 'barbell',   level: 'advanced',     muscles: ['shoulders','core'] },
+  { id: 'pu-db-bench',   name: 'DB Bench Press',              pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['chest','triceps'] },
+  { id: 'pu-db-incline', name: 'DB Incline Press',            pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['upper chest'] },
+  { id: 'pu-db-flat',    name: 'DB Flat Press',               pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['chest'] },
+  { id: 'pu-db-ohp',     name: 'DB Overhead Press',           pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['shoulders'] },
+  { id: 'pu-arnold',     name: 'Arnold Press',                pattern: 'push',  equipment: 'dumbbell',  level: 'intermediate', muscles: ['shoulders'] },
+  { id: 'pu-db-fly',     name: 'DB Fly',                      pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['chest'] },
+  { id: 'pu-lat-raise',  name: 'Lateral Raise',               pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['side delts'] },
+  { id: 'pu-front-raise',name: 'Front Raise',                 pattern: 'push',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['front delts'] },
+  { id: 'pu-cable-fly',  name: 'Cable Fly',                   pattern: 'push',  equipment: 'cable',     level: 'beginner',     muscles: ['chest'] },
+  { id: 'pu-cable-cross',name: 'Cable Crossover',             pattern: 'push',  equipment: 'cable',     level: 'intermediate', muscles: ['chest'] },
+  { id: 'pu-cable-lat',  name: 'Cable Lateral Raise',         pattern: 'push',  equipment: 'cable',     level: 'beginner',     muscles: ['side delts'] },
+  { id: 'pu-pec-deck',   name: 'Pec Deck',                    pattern: 'push',  equipment: 'machine',   level: 'beginner',     muscles: ['chest'] },
+  { id: 'pu-chest-pr',   name: 'Machine Chest Press',         pattern: 'push',  equipment: 'machine',   level: 'beginner',     muscles: ['chest','triceps'] },
+  { id: 'pu-shoulder-pr',name: 'Machine Shoulder Press',      pattern: 'push',  equipment: 'machine',   level: 'beginner',     muscles: ['shoulders'] },
+  { id: 'pu-smith-bench',name: 'Smith Machine Bench',         pattern: 'push',  equipment: 'machine',   level: 'beginner',     muscles: ['chest'] },
+  { id: 'pu-pushup',     name: 'Push-Up',                     pattern: 'push',  equipment: 'bodyweight',level: 'beginner',     muscles: ['chest','triceps'] },
+  { id: 'pu-deficit-pu', name: 'Deficit Push-Up',             pattern: 'push',  equipment: 'bodyweight',level: 'intermediate', muscles: ['chest'] },
+  { id: 'pu-dip',        name: 'Dip',                         pattern: 'push',  equipment: 'bodyweight',level: 'intermediate', muscles: ['triceps','chest'] },
+  { id: 'pu-ring-dip',   name: 'Ring Dip',                    pattern: 'push',  equipment: 'bodyweight',level: 'advanced',     muscles: ['triceps','chest'] },
+  { id: 'pu-handstand',  name: 'Handstand Push-Up',           pattern: 'push',  equipment: 'bodyweight',level: 'advanced',     muscles: ['shoulders'] },
+  { id: 'pu-pike',       name: 'Pike Push-Up',                pattern: 'push',  equipment: 'bodyweight',level: 'intermediate', muscles: ['shoulders'] },
+
+  // ── PULL (horizontal + vertical) ───────────────────────────────
+  { id: 'pl-row-bb',     name: 'Barbell Bent-Over Row',       pattern: 'pull',  equipment: 'barbell',   level: 'intermediate', muscles: ['back','biceps'] },
+  { id: 'pl-pendlay',    name: 'Pendlay Row',                 pattern: 'pull',  equipment: 'barbell',   level: 'advanced',     muscles: ['back'] },
+  { id: 'pl-yates',      name: 'Yates Row',                   pattern: 'pull',  equipment: 'barbell',   level: 'intermediate', muscles: ['back'] },
+  { id: 'pl-meadows',    name: 'Meadows Row',                 pattern: 'pull',  equipment: 'barbell',   level: 'advanced',     muscles: ['lats'] },
+  { id: 'pl-tbar',       name: 'T-Bar Row',                   pattern: 'pull',  equipment: 'barbell',   level: 'intermediate', muscles: ['back'] },
+  { id: 'pl-shrug',      name: 'Barbell Shrug',               pattern: 'pull',  equipment: 'barbell',   level: 'beginner',     muscles: ['traps'] },
+  { id: 'pl-curl-bb',    name: 'Barbell Curl',                pattern: 'pull',  equipment: 'barbell',   level: 'beginner',     muscles: ['biceps'] },
+  { id: 'pl-ez-curl',    name: 'EZ-Bar Curl',                 pattern: 'pull',  equipment: 'barbell',   level: 'beginner',     muscles: ['biceps'] },
+  { id: 'pl-db-row',     name: 'DB Row',                      pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-chest-row',  name: 'Chest-Supported DB Row',      pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-db-shrug',   name: 'DB Shrug',                    pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['traps'] },
+  { id: 'pl-db-curl',    name: 'DB Curl',                     pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['biceps'] },
+  { id: 'pl-hammer',     name: 'Hammer Curl',                 pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['biceps','forearms'] },
+  { id: 'pl-incline-c',  name: 'Incline DB Curl',             pattern: 'pull',  equipment: 'dumbbell',  level: 'intermediate', muscles: ['biceps'] },
+  { id: 'pl-rear-delt',  name: 'DB Rear Delt Fly',            pattern: 'pull',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['rear delts'] },
+  { id: 'pl-cable-row',  name: 'Seated Cable Row',            pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-face-pull',  name: 'Face Pull',                   pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['rear delts'] },
+  { id: 'pl-cable-curl', name: 'Cable Curl',                  pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['biceps'] },
+  { id: 'pl-rope-pull',  name: 'Rope Cable Pull',             pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-straight',   name: 'Straight-Arm Pulldown',       pattern: 'pull',  equipment: 'cable',     level: 'intermediate', muscles: ['lats'] },
+  { id: 'pl-lat-pd',     name: 'Lat Pulldown',                pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['lats'] },
+  { id: 'pl-narrow-pd',  name: 'Narrow-Grip Pulldown',        pattern: 'pull',  equipment: 'cable',     level: 'beginner',     muscles: ['lats','biceps'] },
+  { id: 'pl-pullup',     name: 'Pull-Up',                     pattern: 'pull',  equipment: 'bodyweight',level: 'intermediate', muscles: ['lats','biceps'] },
+  { id: 'pl-chinup',     name: 'Chin-Up',                     pattern: 'pull',  equipment: 'bodyweight',level: 'intermediate', muscles: ['biceps','lats'] },
+  { id: 'pl-weighted',   name: 'Weighted Pull-Up',            pattern: 'pull',  equipment: 'bodyweight',level: 'advanced',     muscles: ['lats','biceps'] },
+  { id: 'pl-inv-row',    name: 'Inverted Row',                pattern: 'pull',  equipment: 'bodyweight',level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-mu',         name: 'Muscle-Up',                   pattern: 'pull',  equipment: 'bodyweight',level: 'advanced',     muscles: ['back','chest'] },
+  { id: 'pl-mach-row',   name: 'Machine Row',                 pattern: 'pull',  equipment: 'machine',   level: 'beginner',     muscles: ['back'] },
+  { id: 'pl-mach-pd',    name: 'Machine Pulldown',            pattern: 'pull',  equipment: 'machine',   level: 'beginner',     muscles: ['lats'] },
+  { id: 'pl-prch-curl',  name: 'Preacher Curl Machine',       pattern: 'pull',  equipment: 'machine',   level: 'beginner',     muscles: ['biceps'] },
+
+  // ── CARRY ──────────────────────────────────────────────────────
+  { id: 'ca-farmer',     name: 'Farmer Carry',                pattern: 'carry', equipment: 'dumbbell',  level: 'beginner',     muscles: ['grip','core','traps'] },
+  { id: 'ca-suitcase',   name: 'Suitcase Carry',              pattern: 'carry', equipment: 'dumbbell',  level: 'beginner',     muscles: ['core','grip'] },
+  { id: 'ca-front-rack', name: 'Front Rack Carry',            pattern: 'carry', equipment: 'kettlebell',level: 'intermediate', muscles: ['core','shoulders'] },
+  { id: 'ca-overhead',   name: 'Overhead Carry',              pattern: 'carry', equipment: 'dumbbell',  level: 'intermediate', muscles: ['shoulders','core'] },
+  { id: 'ca-yoke',       name: 'Yoke Carry',                  pattern: 'carry', equipment: 'machine',   level: 'advanced',     muscles: ['full body'] },
+  { id: 'ca-zercher',    name: 'Zercher Carry',               pattern: 'carry', equipment: 'barbell',   level: 'intermediate', muscles: ['core','biceps'] },
+  { id: 'ca-trap-walk',  name: 'Trap Bar Walk',               pattern: 'carry', equipment: 'barbell',   level: 'intermediate', muscles: ['grip','traps'] },
+  { id: 'ca-sandbag',    name: 'Sandbag Carry',               pattern: 'carry', equipment: 'bodyweight',level: 'intermediate', muscles: ['full body'] },
+
+  // ── CORE ───────────────────────────────────────────────────────
+  { id: 'co-plank',      name: 'Plank',                       pattern: 'core',  equipment: 'bodyweight',level: 'beginner',     muscles: ['core'] },
+  { id: 'co-side-plank', name: 'Side Plank',                  pattern: 'core',  equipment: 'bodyweight',level: 'beginner',     muscles: ['obliques'] },
+  { id: 'co-hollow',     name: 'Hollow Body Hold',            pattern: 'core',  equipment: 'bodyweight',level: 'intermediate', muscles: ['core'] },
+  { id: 'co-leg-raise',  name: 'Hanging Leg Raise',           pattern: 'core',  equipment: 'bodyweight',level: 'intermediate', muscles: ['core'] },
+  { id: 'co-toe-bar',    name: 'Toes-to-Bar',                 pattern: 'core',  equipment: 'bodyweight',level: 'advanced',     muscles: ['core'] },
+  { id: 'co-ab-wheel',   name: 'Ab Wheel Rollout',            pattern: 'core',  equipment: 'bodyweight',level: 'intermediate', muscles: ['core'] },
+  { id: 'co-deadbug',    name: 'Dead Bug',                    pattern: 'core',  equipment: 'bodyweight',level: 'beginner',     muscles: ['core'] },
+  { id: 'co-bird-dog',   name: 'Bird Dog',                    pattern: 'core',  equipment: 'bodyweight',level: 'beginner',     muscles: ['core'] },
+  { id: 'co-pallof',     name: 'Pallof Press',                pattern: 'core',  equipment: 'cable',     level: 'beginner',     muscles: ['core'] },
+  { id: 'co-cable-cr',   name: 'Cable Crunch',                pattern: 'core',  equipment: 'cable',     level: 'beginner',     muscles: ['core'] },
+  { id: 'co-wood-chop',  name: 'Cable Wood Chop',             pattern: 'core',  equipment: 'cable',     level: 'intermediate', muscles: ['obliques'] },
+  { id: 'co-russian',    name: 'Russian Twist',               pattern: 'core',  equipment: 'dumbbell',  level: 'beginner',     muscles: ['obliques'] },
+  { id: 'co-turkish',    name: 'Turkish Get-Up',              pattern: 'core',  equipment: 'kettlebell',level: 'advanced',     muscles: ['full body'] },
+
+  // ── ACCESSORY (arms / calves / forearms / specific) ────────────
+  { id: 'ac-tri-pd',     name: 'Tricep Pushdown',             pattern: 'accessory', equipment: 'cable', level: 'beginner', muscles: ['triceps'] },
+  { id: 'ac-tri-rope',   name: 'Rope Tricep Extension',       pattern: 'accessory', equipment: 'cable', level: 'beginner', muscles: ['triceps'] },
+  { id: 'ac-skull',      name: 'Skullcrusher',                pattern: 'accessory', equipment: 'barbell', level: 'intermediate', muscles: ['triceps'] },
+  { id: 'ac-jm-press',   name: 'JM Press',                    pattern: 'accessory', equipment: 'barbell', level: 'advanced', muscles: ['triceps'] },
+  { id: 'ac-db-tri',     name: 'DB Overhead Tricep Ext',      pattern: 'accessory', equipment: 'dumbbell', level: 'beginner', muscles: ['triceps'] },
+  { id: 'ac-kickback',   name: 'Tricep Kickback',             pattern: 'accessory', equipment: 'dumbbell', level: 'beginner', muscles: ['triceps'] },
+  { id: 'ac-conc-curl',  name: 'Concentration Curl',          pattern: 'accessory', equipment: 'dumbbell', level: 'beginner', muscles: ['biceps'] },
+  { id: 'ac-spider',     name: 'Spider Curl',                 pattern: 'accessory', equipment: 'dumbbell', level: 'intermediate', muscles: ['biceps'] },
+  { id: 'ac-zottman',    name: 'Zottman Curl',                pattern: 'accessory', equipment: 'dumbbell', level: 'intermediate', muscles: ['biceps','forearms'] },
+  { id: 'ac-wrist-curl', name: 'Wrist Curl',                  pattern: 'accessory', equipment: 'dumbbell', level: 'beginner', muscles: ['forearms'] },
+  { id: 'ac-rev-wrist',  name: 'Reverse Wrist Curl',          pattern: 'accessory', equipment: 'dumbbell', level: 'beginner', muscles: ['forearms'] },
+  { id: 'ac-calf-st',    name: 'Standing Calf Raise',         pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['calves'] },
+  { id: 'ac-calf-se',    name: 'Seated Calf Raise',           pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['calves'] },
+  { id: 'ac-donkey',     name: 'Donkey Calf Raise',           pattern: 'accessory', equipment: 'machine', level: 'intermediate', muscles: ['calves'] },
+  { id: 'ac-leg-ext',    name: 'Leg Extension',               pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['quads'] },
+  { id: 'ac-adductor',   name: 'Hip Adductor Machine',        pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['adductors'] },
+  { id: 'ac-abductor',   name: 'Hip Abductor Machine',        pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['glutes'] },
+  { id: 'ac-glute-mac',  name: 'Glute Kickback Machine',      pattern: 'accessory', equipment: 'machine', level: 'beginner', muscles: ['glutes'] },
+  { id: 'ac-band-pull',  name: 'Band Pull-Apart',             pattern: 'accessory', equipment: 'band',    level: 'beginner', muscles: ['rear delts'] },
+  { id: 'ac-band-tri',   name: 'Band Tricep Pushdown',        pattern: 'accessory', equipment: 'band',    level: 'beginner', muscles: ['triceps'] },
+  { id: 'ac-band-curl',  name: 'Band Curl',                   pattern: 'accessory', equipment: 'band',    level: 'beginner', muscles: ['biceps'] },
+  { id: 'ac-band-monst', name: 'Monster Walk',                pattern: 'accessory', equipment: 'band',    level: 'beginner', muscles: ['glutes'] },
+  { id: 'ac-band-sq',    name: 'Banded Squat',                pattern: 'accessory', equipment: 'band',    level: 'beginner', muscles: ['quads','glutes'] },
+];
+
+// Quick lookup by id
+const EXERCISE_BY_ID = Object.fromEntries(EXERCISES.map(e => [e.id, e]));
+
+const PATTERNS = ['squat','hinge','push','pull','carry','core','accessory'];
+const EQUIPMENT = ['barbell','dumbbell','cable','machine','bodyweight','kettlebell','band'];
+const LEVELS = ['beginner','intermediate','advanced'];
+
+const PATTERN_LABEL = {
+  squat: 'Squat', hinge: 'Hinge', push: 'Push', pull: 'Pull',
+  carry: 'Carry', core: 'Core', accessory: 'Accessory'
+};
+
+window.EXERCISES = EXERCISES;
+window.EXERCISE_BY_ID = EXERCISE_BY_ID;
+window.PATTERNS = PATTERNS;
+window.EQUIPMENT = EQUIPMENT;
+window.LEVELS = LEVELS;
+window.PATTERN_LABEL = PATTERN_LABEL;
+
+
+
+// Sample clients + workout history + current programs
+// Used to populate every screen.
+
+const CLIENTS = [
+  {
+    id: 'mar',  name: 'Marcus Reyes',     initials: 'MR',
+    goal: 'Strength — Powerlifting Meet',
+    block: 'Hypertrophy → Strength', week: 4, totalWeeks: 8,
+    adherence: 0.92, sessionsThisWeek: 3, sessionsPlanned: 4,
+    bw: 198, lastSeen: '2 days ago',
+    bestLifts: { 'sq-back': 425, 'pu-bench': 285, 'hi-dl': 495 },
+    accent: '#E8FF3A',
+    coach: 'You',
+    sharedWith: ['DR','KH'],
+  },
+  {
+    id: 'sof',  name: 'Sofia Andersen',  initials: 'SA',
+    goal: 'Build muscle, recomp',
+    block: 'Hypertrophy', week: 2, totalWeeks: 6,
+    adherence: 0.86, sessionsThisWeek: 2, sessionsPlanned: 4,
+    bw: 142, lastSeen: 'Today',
+    bestLifts: { 'sq-back': 205, 'pu-db-bench': 50, 'hi-rdl': 185 },
+    accent: '#FF7A3A',
+    coach: 'You',
+    sharedWith: [],
+  },
+  {
+    id: 'jam',  name: 'Jamal Carter',    initials: 'JC',
+    goal: 'Athletic performance — basketball offseason',
+    block: 'Power Development', week: 6, totalWeeks: 8,
+    adherence: 0.78, sessionsThisWeek: 2, sessionsPlanned: 3,
+    bw: 215, lastSeen: 'Yesterday',
+    bestLifts: { 'sq-back': 365, 'hi-trap-bar': 425, 'pu-bench': 245 },
+    accent: '#3AE0FF',
+    coach: 'You',
+    sharedWith: ['DR'],
+  },
+  {
+    id: 'pri',  name: 'Priya Iyer',      initials: 'PI',
+    goal: 'First powerlifting meet (intermediate)',
+    block: 'Strength', week: 3, totalWeeks: 10,
+    adherence: 0.95, sessionsThisWeek: 4, sessionsPlanned: 4,
+    bw: 132, lastSeen: 'Today',
+    bestLifts: { 'sq-back': 245, 'pu-bench': 145, 'hi-sumo': 315 },
+    accent: '#E8FF3A',
+    coach: 'You',
+    sharedWith: [],
+  },
+  {
+    id: 'der',  name: 'Derek Liu',       initials: 'DL',
+    goal: 'Hypertrophy / aesthetics',
+    block: 'Volume Block', week: 5, totalWeeks: 6,
+    adherence: 0.71, sessionsThisWeek: 2, sessionsPlanned: 5,
+    bw: 178, lastSeen: '4 days ago',
+    bestLifts: { 'pu-db-incline': 90, 'pl-pullup': 0, 'sq-hack': 360 },
+    accent: '#FF3A8E',
+    coach: 'You',
+    sharedWith: ['KH'],
+  },
+  {
+    id: 'aly',  name: 'Alyssa Thompson', initials: 'AT',
+    goal: 'Return-to-lifting post-injury',
+    block: 'Rebuild', week: 2, totalWeeks: 4,
+    adherence: 1.0, sessionsThisWeek: 3, sessionsPlanned: 3,
+    bw: 155, lastSeen: 'Today',
+    bestLifts: { 'sq-goblet': 60, 'pu-db-bench': 35, 'hi-db-rdl': 75 },
+    accent: '#9EFF3A',
+    coach: 'You',
+    sharedWith: ['DR'],
+  },
+  {
+    id: 'rob',  name: 'Roberto Salinas', initials: 'RS',
+    goal: 'Strongman — Log Press focus',
+    block: 'Peaking', week: 7, totalWeeks: 8,
+    adherence: 0.88, sessionsThisWeek: 3, sessionsPlanned: 4,
+    bw: 245, lastSeen: 'Yesterday',
+    bestLifts: { 'pu-ohp': 245, 'hi-dl': 605, 'sq-back': 505 },
+    accent: '#E8FF3A',
+    coach: 'You',
+    sharedWith: [],
+  },
+  {
+    id: 'mei',  name: 'Mei-Lin Park',    initials: 'MP',
+    goal: 'General strength + mobility',
+    block: 'Foundation', week: 1, totalWeeks: 8,
+    adherence: 0.83, sessionsThisWeek: 2, sessionsPlanned: 3,
+    bw: 128, lastSeen: '3 days ago',
+    bestLifts: { 'sq-goblet': 50, 'pu-db-bench': 30, 'hi-kb-swing': 53 },
+    accent: '#3AE0FF',
+    coach: 'You',
+    sharedWith: [],
+  },
+];
+
+// Marcus Reyes - intermediate powerlifter peaking
+// His current program: Wk 4 of 8, Upper/Lower/Upper/Lower split
+const MARCUS_PROGRAM = {
+  clientId: 'mar',
+  block: 'Hypertrophy → Strength',
+  week: 4, totalWeeks: 8,
+  days: [
+    {
+      id: 'd1', name: 'Lower A — Squat Focus', day: 'Mon',
+      status: 'logged', date: 'Apr 27',
+      exercises: [
+        { id: 'sq-back',     sets: [
+          { reps: 5, weight: 315, rpe: 7, done: true },
+          { reps: 5, weight: 335, rpe: 8, done: true },
+          { reps: 5, weight: 355, rpe: 8.5, done: true },
+          { reps: 5, weight: 355, rpe: 9, done: true },
+        ], targetReps: 5, suggestion: 365, last: 355, note: 'Felt strong on top set, depth consistent.' },
+        { id: 'hi-rdl',      sets: [
+          { reps: 8, weight: 245, rpe: 7, done: true },
+          { reps: 8, weight: 245, rpe: 7.5, done: true },
+          { reps: 8, weight: 245, rpe: 8, done: true },
+        ], targetReps: 8, suggestion: 255, last: 245 },
+        { id: 'sq-bulg',     sets: [
+          { reps: 10, weight: 65, rpe: 7, done: true },
+          { reps: 10, weight: 65, rpe: 7.5, done: true },
+          { reps: 10, weight: 65, rpe: 8, done: true },
+        ], targetReps: 10, suggestion: 70, last: 65 },
+        { id: 'co-pallof',   sets: [
+          { reps: 12, weight: 35, rpe: 6, done: true },
+          { reps: 12, weight: 35, rpe: 6, done: true },
+          { reps: 12, weight: 35, rpe: 6, done: true },
+        ], targetReps: 12, suggestion: 35, last: 35 },
+      ],
+    },
+    {
+      id: 'd2', name: 'Upper A — Bench Focus', day: 'Tue',
+      status: 'logged', date: 'Apr 28',
+      exercises: [
+        { id: 'pu-bench',    sets: [
+          { reps: 5, weight: 205, rpe: 7, done: true },
+          { reps: 5, weight: 225, rpe: 8, done: true },
+          { reps: 5, weight: 235, rpe: 8.5, done: true },
+          { reps: 5, weight: 235, rpe: 9, done: true },
+        ], targetReps: 5, suggestion: 245, last: 235, note: 'Right shoulder a little tight on warm-ups, fine after.' },
+        { id: 'pl-row-bb',   sets: [
+          { reps: 8, weight: 185, rpe: 7, done: true },
+          { reps: 8, weight: 185, rpe: 7.5, done: true },
+          { reps: 8, weight: 185, rpe: 8, done: true },
+        ], targetReps: 8, suggestion: 195, last: 185 },
+        { id: 'pu-db-incline', sets: [
+          { reps: 10, weight: 70, rpe: 7, done: true },
+          { reps: 10, weight: 70, rpe: 8, done: true },
+          { reps: 10, weight: 70, rpe: 8.5, done: true },
+        ], targetReps: 10, suggestion: 75, last: 70 },
+        { id: 'pl-face-pull',sets: [
+          { reps: 15, weight: 40, rpe: 6, done: true },
+          { reps: 15, weight: 40, rpe: 6.5, done: true },
+          { reps: 15, weight: 40, rpe: 7, done: true },
+        ], targetReps: 15, suggestion: 40, last: 40 },
+      ],
+    },
+    {
+      id: 'd3', name: 'Lower B — Deadlift Focus', day: 'Thu',
+      status: 'logged', date: 'Apr 30',
+      exercises: [
+        { id: 'hi-dl',       sets: [
+          { reps: 3, weight: 365, rpe: 7, done: true },
+          { reps: 3, weight: 405, rpe: 8, done: true },
+          { reps: 3, weight: 425, rpe: 9, done: true },
+        ], targetReps: 3, suggestion: 435, last: 425, note: 'Bar speed strong off floor, lockout slow.' },
+        { id: 'sq-front',    sets: [
+          { reps: 6, weight: 245, rpe: 7, done: true },
+          { reps: 6, weight: 245, rpe: 7.5, done: true },
+          { reps: 6, weight: 245, rpe: 8, done: true },
+        ], targetReps: 6, suggestion: 255, last: 245 },
+        { id: 'hi-good',     sets: [
+          { reps: 10, weight: 135, rpe: 7, done: true },
+          { reps: 10, weight: 135, rpe: 7, done: true },
+          { reps: 10, weight: 135, rpe: 7.5, done: true },
+        ], targetReps: 10, suggestion: 145, last: 135 },
+        { id: 'hi-leg-curl', sets: [
+          { reps: 12, weight: 90, rpe: 7, done: true },
+          { reps: 12, weight: 90, rpe: 7.5, done: true },
+          { reps: 12, weight: 90, rpe: 8, done: true },
+        ], targetReps: 12, suggestion: 100, last: 90 },
+      ],
+    },
+    {
+      id: 'd4', name: 'Upper B — OHP Focus', day: 'Today',
+      status: 'in_progress', date: 'May 3',
+      exercises: [
+        { id: 'pu-ohp',      sets: [
+          { reps: 5, weight: 135, rpe: 7, done: true },
+          { reps: 5, weight: 145, rpe: 8, done: true },
+          { reps: 5, weight: 155, rpe: 9, done: false },
+          { reps: 5, weight: 155, rpe: null, done: false },
+        ], targetReps: 5, suggestion: 160, last: 155, note: '' },
+        { id: 'pl-pullup',   sets: [
+          { reps: 8, weight: 25, rpe: 7, done: true },
+          { reps: 8, weight: 25, rpe: 8, done: false },
+          { reps: 8, weight: 25, rpe: null, done: false },
+        ], targetReps: 8, suggestion: 30, last: 25 },
+        { id: 'pu-db-bench', sets: [
+          { reps: 10, weight: 80, rpe: null, done: false },
+          { reps: 10, weight: 80, rpe: null, done: false },
+          { reps: 10, weight: 80, rpe: null, done: false },
+        ], targetReps: 10, suggestion: 85, last: 80 },
+        { id: 'pl-cable-row',sets: [
+          { reps: 12, weight: 160, rpe: null, done: false },
+          { reps: 12, weight: 160, rpe: null, done: false },
+          { reps: 12, weight: 160, rpe: null, done: false },
+        ], targetReps: 12, suggestion: 170, last: 160 },
+        { id: 'ac-tri-rope', sets: [
+          { reps: 12, weight: 60, rpe: null, done: false },
+          { reps: 12, weight: 60, rpe: null, done: false },
+          { reps: 12, weight: 60, rpe: null, done: false },
+        ], targetReps: 12, suggestion: 65, last: 60 },
+      ],
+    },
+  ],
+  notes: [
+    { date: 'May 3', author: 'You', text: 'Bumping squats to 365 next week — RPE on 355 was 9 but bar speed looked good in video.' },
+    { date: 'May 1', author: 'Dre Robinson (covering)', text: 'Marcus mentioned mild left knee pinch on Bulgarians. Cued narrower stance, resolved.' },
+    { date: 'Apr 28', author: 'You', text: 'Bench 235x5 RPE 9 — hold here one more week before pushing to 245. Form breakdown on rep 5 of last set.' },
+  ],
+};
+
+// Volume over time, last 8 weeks (lbs of total weekly volume / 1000)
+const MARCUS_VOLUME = [
+  { week: 'W-7', volume: 42.1 },
+  { week: 'W-6', volume: 44.8 },
+  { week: 'W-5', volume: 48.2 },
+  { week: 'W-4', volume: 51.0 },
+  { week: 'W-3', volume: 49.5 },
+  { week: 'W-2', volume: 53.7 },
+  { week: 'W-1', volume: 56.2 },
+  { week: 'This', volume: 41.9 }, // mid-week
+];
+
+// 1RM est history for top 3 lifts (over 12 weeks)
+const MARCUS_1RM_HISTORY = {
+  'sq-back':  [385, 390, 395, 400, 405, 410, 410, 415, 415, 420, 420, 425],
+  'pu-bench': [255, 260, 265, 265, 270, 270, 275, 275, 280, 280, 285, 285],
+  'hi-dl':    [445, 450, 455, 460, 465, 470, 475, 475, 480, 485, 490, 495],
+};
+
+// Weekly volume by muscle group (sets × reps × weight, in thousands)
+const MARCUS_VOLUME_BY_MUSCLE = [
+  { group: 'Quads',    sets: 18, volume: 14.2 },
+  { group: 'Hams',     sets: 14, volume: 9.8 },
+  { group: 'Glutes',   sets: 12, volume: 11.5 },
+  { group: 'Chest',    sets: 16, volume: 8.9 },
+  { group: 'Back',     sets: 22, volume: 12.6 },
+  { group: 'Shoulders',sets: 14, volume: 5.4 },
+  { group: 'Arms',     sets: 12, volume: 3.1 },
+  { group: 'Core',     sets: 9,  volume: 1.2 },
+];
+
+window.CLIENTS = CLIENTS;
+window.MARCUS_PROGRAM = MARCUS_PROGRAM;
+window.MARCUS_VOLUME = MARCUS_VOLUME;
+window.MARCUS_1RM_HISTORY = MARCUS_1RM_HISTORY;
+window.MARCUS_VOLUME_BY_MUSCLE = MARCUS_VOLUME_BY_MUSCLE;
+
+
+
+// Shared UI bits used across views.
+
+const Icon = ({ name, size = 14 }) => {
+  const paths = {
+    dashboard: <><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></>,
+    sheet: <><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></>,
+    library: <><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></>,
+    calendar: <><rect x="3" y="4" width="18" height="17" rx="1.5"/><path d="M3 10h18M8 2v4M16 2v4"/></>,
+    messages: <><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></>,
+    plus: <><path d="M12 5v14M5 12h14"/></>,
+    search: <><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></>,
+    check: <><path d="M5 12l5 5 9-11"/></>,
+    settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 008 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09A1.65 1.65 0 0015 4.6a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.32.13.59.36.78.65.19.29.29.62.29.96V11a2 2 0 010 4h-.09a1.65 1.65 0 00-1.49 1z"/></>,
+    chev: <><path d="M9 6l6 6-6 6"/></>,
+    drag: <><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></>,
+    note: <><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></>,
+    arrow: <><path d="M5 12h14M13 6l6 6-6 6"/></>,
+    arrowUp: <><path d="M12 19V5M5 12l7-7 7 7"/></>,
+    arrowDown: <><path d="M12 5v14M5 12l7 7 7-7"/></>,
+    cloud: <><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></>,
+    bell: <><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></>,
+    timer: <><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></>,
+    trend: <><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></>,
+    flame: <><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></>,
+    weight: <><path d="M3 10h18M5 6h14l2 4-9 12L3 10z"/></>,
+    filter: <><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></>,
+  };
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>
+  );
+};
+
+// Small line-chart sparkline
+const Sparkline = ({ data, color = 'currentColor', fill = true, h = 80 }) => {
+  if (!data || data.length === 0) return null;
+  const w = 100;
+  const max = Math.max(...data) * 1.05;
+  const min = Math.min(...data) * 0.95;
+  const range = (max - min) || 1;
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - ((v - min) / range) * (h - 8) - 4;
+    return [x, y];
+  });
+  const path = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const area = path + ` L${w},${h} L0,${h} Z`;
+  return (
+    <svg className="spark" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+      {fill && (
+        <>
+          <defs>
+            <linearGradient id="sparkfill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={color} stopOpacity="0.32"/>
+              <stop offset="100%" stopColor={color} stopOpacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d={area} fill="url(#sparkfill)"/>
+        </>
+      )}
+      <path d={path} fill="none" stroke={color} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+      {pts.map((p, i) => (
+        <circle key={i} cx={p[0]} cy={p[1]} r="1.4" fill={color} />
+      ))}
+    </svg>
+  );
+};
+
+// Sidebar
+function Sidebar({ view, setView, currentClientId, setClientId }) {
+  const clients = window.CLIENTS;
+  return (
+    <div className="sidebar">
+      <div className="sb-brand">
+        <div className="sb-brand-mark">C</div>
+        <div>
+          <div className="sb-brand-name">CHALK</div>
+          <div className="sb-brand-sub">Coach OS · v3.2</div>
+        </div>
+      </div>
+
+      <div>
+        <div className="sb-section-label">Workspace</div>
+        <div className="sb-nav">
+          <button className="sb-item" data-active={view === 'roster'}
+                  onClick={() => setView('roster')}>
+            <span className="sb-item-icon"><Icon name="dashboard"/></span> Roster
+            <span className="sb-item-count">{clients.length}</span>
+          </button>
+          <button className="sb-item" data-active={view === 'sheet'}
+                  onClick={() => setView('sheet')}>
+            <span className="sb-item-icon"><Icon name="sheet"/></span> Program Sheet
+          </button>
+          <button className="sb-item" data-active={view === 'library'}
+                  onClick={() => setView('library')}>
+            <span className="sb-item-icon"><Icon name="library"/></span> Exercise Library
+            <span className="sb-item-count">{window.EXERCISES.length}</span>
+          </button>
+          <button className="sb-item">
+            <span className="sb-item-icon"><Icon name="calendar"/></span> Calendar
+          </button>
+          <button className="sb-item">
+            <span className="sb-item-icon"><Icon name="messages"/></span> Inbox
+            <span className="sb-item-count">3</span>
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <div className="sb-section-label">Active Clients</div>
+        <div className="sb-clients">
+          {clients.map((c) => (
+            <button key={c.id}
+                    className="sb-client-row"
+                    data-active={view === 'sheet' && currentClientId === c.id}
+                    onClick={() => { setClientId(c.id); setView('sheet'); }}>
+              <span className="sb-client-avatar" style={{ background: c.accent + '22', color: c.accent }}>
+                {c.initials}
+              </span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {c.name.split(' ')[0]}
+              </span>
+              <span className="sb-client-status"
+                    data-state={c.adherence > 0.85 ? 'active' : c.adherence > 0.7 ? 'warn' : ''}/>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="sb-coach">
+        <div className="sb-coach-avatar">KM</div>
+        <div>
+          <div className="sb-coach-name">Coach Morgan</div>
+          <div className="sb-coach-role">Head Coach · Iron House</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Topbar({ view, currentClient, onSettingsToggle }) {
+  const crumbs = view === 'roster' ? ['Workspace', 'Roster'] :
+                 view === 'sheet' ? ['Clients', currentClient?.name || ''] :
+                 ['Workspace', 'Exercise Library'];
+  return (
+    <div className="topbar">
+      <div className="topbar-crumbs">
+        {crumbs.map((c, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <span className="topbar-crumbs-sep">/</span>}
+            {i === crumbs.length - 1 ? <b>{c}</b> : <span>{c}</span>}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="topbar-spacer"/>
+      <div className="topbar-search">
+        <Icon name="search" size={12}/>
+        <span>Find client, exercise, or session…</span>
+        <span style={{ marginLeft: 'auto', fontFamily: 'JetBrains Mono, monospace', fontSize: 10, opacity: 0.6 }}>⌘K</span>
+      </div>
+      <div className="topbar-presence">
+        <div className="presence-dots">
+          <div className="sb-coach-avatar" title="Dre Robinson" style={{ background: '#3AE0FF', color: '#0B0B0C' }}>DR</div>
+          <div className="sb-coach-avatar" title="Kira Hayes" style={{ background: '#FF7A3A', color: '#0B0B0C' }}>KH</div>
+          <div className="sb-coach-avatar" title="You" style={{ background: '#E8FF3A', color: '#0B0B0C' }}>KM</div>
+        </div>
+        <span style={{ marginLeft: 4 }}>3 coaches online</span>
+      </div>
+      <div className="topbar-sync">
+        <span className="sync-dot"/>
+        <span>Cloud · Synced 12s ago</span>
+      </div>
+      <button className="btn btn-ghost" title="Settings" onClick={onSettingsToggle}><Icon name="settings" size={14}/></button>
+      <button className="btn"><Icon name="plus" size={12}/> New Session</button>
+    </div>
+  );
+}
+
+Object.assign(window, { Icon, Sparkline, Sidebar, Topbar });
+
+
+
+// Roster (dashboard) view
+
+function Roster({ setView, setClientId }) {
+  const clients = window.CLIENTS;
+  const totalClients = clients.length;
+  const avgAdherence = Math.round(clients.reduce((a, c) => a + c.adherence, 0) / clients.length * 100);
+  const sessionsToday = clients.filter(c => c.lastSeen === 'Today').length;
+  const flagged = clients.filter(c => c.adherence < 0.8).length;
+
+  return (
+    <div className="roster">
+      <div className="roster-head">
+        <div>
+          <div className="kicker" style={{ marginBottom: 8 }}>Saturday · May 3, 2026</div>
+          <div className="roster-title">Roster</div>
+          <div className="roster-sub">{totalClients} active clients across 4 mesocycles · 18 sessions scheduled this week</div>
+        </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button className="btn btn-secondary"><Icon name="filter" size={11}/> Filter</button>
+          <button className="btn"><Icon name="plus" size={12}/> New Client</button>
+        </div>
+      </div>
+
+      <div className="roster-stats">
+        <div className="stat-card">
+          <div className="stat-label">Active Clients</div>
+          <div className="stat-value">{totalClients}</div>
+          <div className="stat-trend" data-tone="good"><Icon name="arrowUp" size={10}/> +2 this month</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Avg Adherence</div>
+          <div className="stat-value">{avgAdherence}<span style={{ fontSize: 18, color: 'var(--ink-3)' }}>%</span></div>
+          <div className="stat-trend" data-tone="good"><Icon name="arrowUp" size={10}/> +4 vs last block</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Sessions Today</div>
+          <div className="stat-value">{sessionsToday}</div>
+          <div className="stat-trend">2 logged · 3 in progress</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Need Attention</div>
+          <div className="stat-value" style={{ color: flagged > 0 ? 'var(--warn)' : 'var(--ink)' }}>{flagged}</div>
+          <div className="stat-trend">Adherence below 80%</div>
+        </div>
+      </div>
+
+      <div className="roster-section-head">
+        <div className="roster-section-title">All Clients</div>
+        <div className="roster-section-meta">Sort: Last activity ↓</div>
+      </div>
+
+      <div className="client-grid">
+        {clients.map((c) => (
+          <div key={c.id} className="client-card"
+               onClick={() => { setClientId(c.id); setView('sheet'); }}>
+            <div className="client-card-accent" style={{ background: c.accent }}/>
+            <div className="client-card-head">
+              <div className="client-card-avatar" style={{ background: c.accent + '22', color: c.accent }}>
+                {c.initials}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="client-card-name">{c.name}</div>
+                <div className="client-card-goal">{c.goal}</div>
+              </div>
+            </div>
+            <div className="client-card-block">
+              <span>{c.block}</span>
+              <span className="client-card-week">W{c.week}/{c.totalWeeks}</span>
+            </div>
+            <div className="client-card-stats">
+              <div>
+                <div className="cc-stat-label">Adherence</div>
+                <div className="cc-stat-value">{Math.round(c.adherence * 100)}<span className="cc-stat-unit">%</span></div>
+                <div className="adherence-bar"><div className="adherence-fill" style={{ width: (c.adherence * 100) + '%' }}/></div>
+              </div>
+              <div>
+                <div className="cc-stat-label">This Week</div>
+                <div className="cc-stat-value">{c.sessionsThisWeek}<span className="cc-stat-unit">/{c.sessionsPlanned}</span></div>
+              </div>
+              <div>
+                <div className="cc-stat-label">Body Wt</div>
+                <div className="cc-stat-value">{c.bw}<span className="cc-stat-unit">lb</span></div>
+              </div>
+            </div>
+            <div className="client-card-footer">
+              <span>Last: {c.lastSeen}</span>
+              {c.sharedWith.length > 0 ? (
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  Shared
+                  <span className="shared-dots">
+                    {c.sharedWith.map((init, i) => (
+                      <span key={i} className="sb-coach-avatar"
+                            style={{ background: i === 0 ? '#3AE0FF' : '#FF7A3A', color: '#0B0B0C' }}>{init}</span>
+                    ))}
+                  </span>
+                </span>
+              ) : (
+                <span style={{ color: 'var(--ink-4)' }}>Solo</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+window.Roster = Roster;
+
+
+
+// Exercise library view
+
+function Library({ onAdd }) {
+  const [search, setSearch] = React.useState('');
+  const [pattern, setPattern] = React.useState('all');
+  const [equipment, setEquipment] = React.useState('all');
+  const [level, setLevel] = React.useState('all');
+
+  const filtered = window.EXERCISES.filter(e => {
+    if (pattern !== 'all' && e.pattern !== pattern) return false;
+    if (equipment !== 'all' && e.equipment !== equipment) return false;
+    if (level !== 'all' && e.level !== level) return false;
+    if (search && !e.name.toLowerCase().includes(search.toLowerCase())
+              && !e.muscles.some(m => m.toLowerCase().includes(search.toLowerCase()))) return false;
+    return true;
+  });
+
+  return (
+    <div className="lib">
+      <div className="lib-head">
+        <div>
+          <div className="kicker" style={{ marginBottom: 8 }}>Movement Database</div>
+          <div className="lib-title">Exercise Library</div>
+          <div className="lib-sub">{window.EXERCISES.length} exercises · indexed by movement pattern, equipment, and experience level</div>
+        </div>
+        <button className="btn btn-secondary"><Icon name="plus" size={12}/> Add Custom Exercise</button>
+      </div>
+
+      <div className="lib-filters">
+        <div className="lib-search">
+          <div className="lib-filter-label">Search</div>
+          <input className="lib-search-input"
+                 value={search} onChange={(e) => setSearch(e.target.value)}
+                 placeholder="Name, muscle group…"/>
+        </div>
+        <div className="lib-filter-group">
+          <div className="lib-filter-label">Movement Pattern</div>
+          <div className="lib-chips">
+            <button className="lib-chip" data-active={pattern === 'all'} onClick={() => setPattern('all')}>All</button>
+            {window.PATTERNS.map(p => (
+              <button key={p} className="lib-chip" data-active={pattern === p} onClick={() => setPattern(p)}>{p}</button>
+            ))}
+          </div>
+        </div>
+        <div className="lib-filter-group">
+          <div className="lib-filter-label">Equipment</div>
+          <div className="lib-chips">
+            <button className="lib-chip" data-active={equipment === 'all'} onClick={() => setEquipment('all')}>All</button>
+            {window.EQUIPMENT.map(p => (
+              <button key={p} className="lib-chip" data-active={equipment === p} onClick={() => setEquipment(p)}>{p}</button>
+            ))}
+          </div>
+        </div>
+        <div className="lib-filter-group" style={{ minWidth: 160 }}>
+          <div className="lib-filter-label">Level</div>
+          <div className="lib-chips">
+            <button className="lib-chip" data-active={level === 'all'} onClick={() => setLevel('all')}>All</button>
+            {window.LEVELS.map(p => (
+              <button key={p} className="lib-chip" data-active={level === p} onClick={() => setLevel(p)}>{p}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="lib-result-meta">
+        <span>{filtered.length} of {window.EXERCISES.length} exercises</span>
+        <span>Click an exercise to add it to a client's program</span>
+      </div>
+
+      <div className="lib-grid">
+        {filtered.map(e => (
+          <div key={e.id} className="lib-card" onClick={() => onAdd && onAdd(e)}>
+            <div className="lib-card-name">{e.name}</div>
+            <div className="lib-card-pattern">{window.PATTERN_LABEL[e.pattern]}</div>
+            <div className="lib-card-muscles">{e.muscles.join(' · ')}</div>
+            <div className="lib-card-tags">
+              <span className="lib-mini-tag">{e.equipment}</span>
+              <span className="lib-mini-tag">
+                <span className="lib-level-dot" data-level={e.level}/>{e.level}
+              </span>
+            </div>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <div style={{ gridColumn: '1/-1', padding: 40, textAlign: 'center', color: 'var(--ink-3)' }}>
+            No exercises match your filters.
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+window.Library = Library;
+
+
+
+// Sheet view — the workhorse: program builder + inline logging + PO + dashboard widgets + notes
+
+const SET_COLS = 4; // visible set columns
+
+function MesoBar({ week, totalWeeks }) {
+  const cells = Array.from({ length: totalWeeks }, (_, i) => {
+    const w = i + 1;
+    const isDeload = w === totalWeeks;
+    if (w < week) return { w, state: 'done' };
+    if (w === week) return { w, state: 'current' };
+    if (isDeload) return { w, state: 'deload' };
+    return { w, state: 'upcoming' };
+  });
+  return (
+    <div className="meso">
+      <div className="meso-label">Mesocycle · 8wk</div>
+      <div className="meso-cells">
+        {cells.map(c => (
+          <div key={c.w} className="meso-cell" data-state={c.state}>W{c.w}{c.state === 'deload' ? '·DL' : ''}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SetCell({ set, onChange, onToggle, exerciseId, idx }) {
+  return (
+    <div className="set-cell" data-done={set.done}>
+      <div className="set-cell-inner">
+        <div className="set-checkbox" onClick={(e) => { e.stopPropagation(); onToggle(); }}>
+          {set.done && <Icon name="check" size={9}/>}
+        </div>
+        <input className="set-input" type="number" value={set.weight}
+               onChange={(e) => onChange({ weight: Number(e.target.value) })}/>
+        <div className="set-meta-row">
+          <span>{set.reps}r</span>
+          {set.rpe != null && <span className="set-meta-rpe">@{set.rpe}</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExerciseRow({ ex, onUpdate, onRemove, onOpenNote, onPickAlt }) {
+  const meta = window.EXERCISE_BY_ID[ex.id];
+  if (!meta) return null;
+  const pad = Array.from({ length: Math.max(0, SET_COLS - ex.sets.length) });
+  const lastSet = ex.sets[ex.sets.length - 1];
+  const completedSets = ex.sets.filter(s => s.done).length;
+
+  return (
+    <>
+      <div className="exercise-row">
+        <div className="row-handle"><Icon name="drag" size={14}/></div>
+        <div>
+          <div className="exercise-name">{meta.name}</div>
+          <div className="exercise-pattern">
+            <span>{window.PATTERN_LABEL[meta.pattern]}</span>
+            <span>{meta.equipment}</span>
+            <span>{meta.muscles.slice(0, 2).join('/')}</span>
+          </div>
+        </div>
+        <div className="target-cell">
+          <div className="target-reps">{ex.sets.length}×{ex.targetReps}</div>
+          <div className="target-label">target</div>
+        </div>
+        <div className="last-cell">
+          <div className="last-weight">{ex.last} <span style={{ color: 'var(--ink-3)' }}>lb</span></div>
+          <div className="last-meta">last · {completedSets}/{ex.sets.length} done</div>
+        </div>
+        <div className="suggestion-cell">
+          <div className="suggestion-weight">{ex.suggestion}</div>
+          <div className="suggestion-label">suggest</div>
+        </div>
+        {ex.sets.map((s, i) => (
+          <SetCell key={i} set={s} idx={i} exerciseId={ex.id}
+                   onChange={(patch) => {
+                     const sets = ex.sets.map((ss, j) => j === i ? { ...ss, ...patch } : ss);
+                     onUpdate({ ...ex, sets });
+                   }}
+                   onToggle={() => {
+                     const sets = ex.sets.map((ss, j) => j === i ? { ...ss, done: !ss.done } : ss);
+                     onUpdate({ ...ex, sets });
+                   }}/>
+        ))}
+        {pad.map((_, i) => <div key={'pad'+i} style={{ background: 'var(--bg-2)', opacity: 0.4 }}/>)}
+        <div style={{ alignItems: 'center', justifyContent: 'center', display: 'flex', gap: 4 }}>
+          <button className="action-btn" title="Add note" onClick={onOpenNote}><Icon name="note" size={12}/></button>
+          <button className="action-btn" title="Swap exercise" onClick={onPickAlt}>↻</button>
+          <button className="action-btn" title="Remove" onClick={onRemove}>✕</button>
+        </div>
+        <div className="row-handle">⋮</div>
+      </div>
+      {ex.note && (
+        <div className="row-note">
+          <span className="row-note-label">Note</span>
+          <span>{ex.note}</span>
+        </div>
+      )}
+    </>
+  );
+}
+
+function Sheet({ client, showNotesCol }) {
+  // Find the program — for now, MARCUS_PROGRAM is canonical; for other clients, generate a slim version.
+  const baseProgram = client.id === 'mar'
+    ? window.MARCUS_PROGRAM
+    : makeFallbackProgram(client);
+
+  const [program, setProgram] = React.useState(baseProgram);
+  React.useEffect(() => {
+    setProgram(client.id === 'mar' ? window.MARCUS_PROGRAM : makeFallbackProgram(client));
+  }, [client.id]);
+
+  const [activeDayIdx, setActiveDayIdx] = React.useState(
+    program.days.findIndex(d => d.status === 'in_progress') >= 0
+      ? program.days.findIndex(d => d.status === 'in_progress')
+      : 0
+  );
+  const [pickerOpen, setPickerOpen] = React.useState(false);
+  const [noteOpenForIdx, setNoteOpenForIdx] = React.useState(null);
+
+  const day = program.days[activeDayIdx];
+
+  const updateDay = (newDay) => {
+    const days = program.days.map((d, i) => i === activeDayIdx ? newDay : d);
+    setProgram({ ...program, days });
+  };
+
+  const updateExercise = (idx, newEx) => {
+    const exercises = day.exercises.map((e, i) => i === idx ? newEx : e);
+    updateDay({ ...day, exercises });
+  };
+
+  const removeExercise = (idx) => {
+    updateDay({ ...day, exercises: day.exercises.filter((_, i) => i !== idx) });
+  };
+
+  const addExercise = (meta) => {
+    const newEx = {
+      id: meta.id,
+      sets: Array.from({ length: 3 }, () => ({ reps: 8, weight: 0, rpe: null, done: false })),
+      targetReps: 8, suggestion: 0, last: 0,
+    };
+    updateDay({ ...day, exercises: [...day.exercises, newEx] });
+    setPickerOpen(false);
+  };
+
+  // Total volume done today
+  const todayVolume = day.exercises.reduce((sum, e) =>
+    sum + e.sets.filter(s => s.done).reduce((a, s) => a + s.weight * s.reps, 0), 0);
+  const totalSets = day.exercises.reduce((s, e) => s + e.sets.length, 0);
+  const doneSets = day.exercises.reduce((s, e) => s + e.sets.filter(ss => ss.done).length, 0);
+
+  return (
+    <div className="sheet-wrap">
+      <div className="sheet-main">
+        <div className="client-header">
+          <div className="ch-id">
+            <div className="ch-avatar" style={{ background: client.accent + '22', color: client.accent }}>
+              {client.initials}
+            </div>
+            <div>
+              <div className="ch-name">{client.name}</div>
+              <div className="ch-goal">{client.goal}</div>
+            </div>
+          </div>
+          <div className="ch-meta">
+            <div className="ch-meta-block">
+              <div className="ch-meta-label">Block</div>
+              <div className="ch-meta-value">{program.block}</div>
+            </div>
+            <div className="ch-meta-block">
+              <div className="ch-meta-label">Body Wt</div>
+              <div className="ch-meta-value">{client.bw}<small>lb</small></div>
+            </div>
+            <div className="ch-meta-block">
+              <div className="ch-meta-label">Adherence</div>
+              <div className="ch-meta-value" style={{ color: client.adherence > 0.85 ? 'var(--good)' : 'var(--warn)' }}>
+                {Math.round(client.adherence * 100)}<small>%</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <MesoBar week={program.week} totalWeeks={program.totalWeeks}/>
+
+        <div className="day-tabs">
+          {program.days.map((d, i) => (
+            <button key={d.id} className="day-tab" data-active={i === activeDayIdx} onClick={() => setActiveDayIdx(i)}>
+              <div className="day-tab-day">{d.day} · {d.date}</div>
+              <div>
+                {d.name}
+                <span className="day-tab-status" data-status={d.status}/>
+              </div>
+            </button>
+          ))}
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', padding: '0 12px', gap: 14 }}>
+            <span style={{ fontSize: 10.5, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 600 }}>
+              {doneSets}/{totalSets} sets · {(todayVolume/1000).toFixed(1)}k lb volume
+            </span>
+          </div>
+        </div>
+
+        <div className="sheet" style={{ '--set-count': SET_COLS }}>
+          <div className="sheet-row-header">
+            <div></div>
+            <div>Exercise</div>
+            <div>Target</div>
+            <div>Last Session</div>
+            <div>Auto</div>
+            {Array.from({ length: SET_COLS }).map((_, i) => (
+              <div key={i} className="sh-set" style={{ justifyContent: 'center' }}>SET {i+1}</div>
+            ))}
+            <div style={{ justifyContent: 'center' }}>Actions</div>
+            <div></div>
+          </div>
+          {day.exercises.map((ex, i) => (
+            <ExerciseRow key={i} ex={ex}
+                         onUpdate={(newEx) => updateExercise(i, newEx)}
+                         onRemove={() => removeExercise(i)}
+                         onOpenNote={() => setNoteOpenForIdx(i)}
+                         onPickAlt={() => setPickerOpen(true)}/>
+          ))}
+          <div className="add-exercise-row">
+            <button className="add-exercise-btn" onClick={() => setPickerOpen(true)}>
+              <Icon name="plus" size={11}/> Add Exercise from Library
+            </button>
+            <span style={{ marginLeft: 'auto', fontSize: 10.5, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+              Auto column suggests next weight from last session's RPE
+            </span>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: 8, marginTop: 16, justifyContent: 'flex-end' }}>
+          <button className="btn btn-secondary"><Icon name="cloud" size={11}/> Save Draft</button>
+          <button className="btn"><Icon name="check" size={12}/> Mark Session Complete</button>
+        </div>
+      </div>
+
+      <SheetSidebar client={client} program={program} showNotesCol={showNotesCol}/>
+
+      {pickerOpen && (
+        <ExercisePicker onPick={addExercise} onClose={() => setPickerOpen(false)}/>
+      )}
+    </div>
+  );
+}
+
+function SheetSidebar({ client, program, showNotesCol }) {
+  const isMarcus = client.id === 'mar';
+  const volumeData = isMarcus ? window.MARCUS_VOLUME : null;
+  const volByMuscle = isMarcus ? window.MARCUS_VOLUME_BY_MUSCLE : null;
+  const oneRMHistory = isMarcus ? window.MARCUS_1RM_HISTORY : null;
+
+  const [noteText, setNoteText] = React.useState('');
+  const [notes, setNotes] = React.useState(program.notes || []);
+
+  React.useEffect(() => { setNotes(program.notes || []); }, [program]);
+
+  const submitNote = () => {
+    if (!noteText.trim()) return;
+    setNotes([{ date: 'Today', author: 'You', text: noteText.trim() }, ...notes]);
+    setNoteText('');
+  };
+
+  const maxMuscleVol = volByMuscle ? Math.max(...volByMuscle.map(v => v.volume)) : 1;
+
+  return (
+    <div className="sheet-side">
+      <div className="rail-section">
+        <div className="rail-title"><span>Adherence · 4 wk</span><span style={{ color: 'var(--good)' }}>92%</span></div>
+        <div className="rail-card">
+          <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
+            {[1,1,1,1, 1,1,0,1, 1,1,1,1, 1,1,1,0].map((v, i) => (
+              <div key={i} style={{
+                flex: 1, height: 22, borderRadius: 2,
+                background: v ? 'var(--accent)' : 'var(--bg-3)',
+              }}/>
+            ))}
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--ink-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <span>4 weeks ago</span>
+            <span>This week</span>
+          </div>
+        </div>
+      </div>
+
+      {volumeData && (
+        <div className="rail-section">
+          <div className="rail-title"><span>Weekly Volume</span><span style={{ color: 'var(--good)' }}>↑ 14% vs avg</span></div>
+          <div className="rail-card">
+            <div className="rail-stat-row" style={{ marginBottom: 4 }}>
+              <span className="rail-stat-label">This week (mid)</span>
+              <span className="rail-stat-value">41.9<small>k lb</small></span>
+            </div>
+            <Sparkline data={volumeData.map(v => v.volume)} color="var(--accent)" h={70}/>
+          </div>
+        </div>
+      )}
+
+      {volByMuscle && (
+        <div className="rail-section">
+          <div className="rail-title"><span>Volume by Muscle</span><span>weekly · sets</span></div>
+          <div className="rail-card">
+            {volByMuscle.map(v => (
+              <div className="vol-bar-row" key={v.group}>
+                <div className="vol-bar-label">{v.group}</div>
+                <div className="vol-bar-track">
+                  <div className="vol-bar-fill" style={{ width: ((v.volume / maxMuscleVol) * 100) + '%' }}/>
+                </div>
+                <div className="vol-bar-val">{v.sets}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {oneRMHistory && (
+        <div className="rail-section">
+          <div className="rail-title"><span>e1RM Trends · 12wk</span></div>
+          <div className="rail-card">
+            {Object.entries(oneRMHistory).map(([id, hist]) => {
+              const ex = window.EXERCISE_BY_ID[id];
+              const last = hist[hist.length-1];
+              const first = hist[0];
+              const delta = last - first;
+              return (
+                <div key={id} style={{ marginBottom: 10 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, marginBottom: 2 }}>
+                    <span style={{ fontWeight: 600 }}>{ex.name}</span>
+                    <span className="font-mono">
+                      {last}lb <span style={{ color: 'var(--good)', marginLeft: 4 }}>+{delta}</span>
+                    </span>
+                  </div>
+                  <Sparkline data={hist} color={client.accent} h={28}/>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {showNotesCol && (
+        <div className="rail-section">
+          <div className="rail-title">
+            <span>Coach Notes</span>
+            <span style={{ color: 'var(--ink-3)' }}>{notes.length}</span>
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <textarea className="note-input" rows={2}
+                      value={noteText} onChange={(e) => setNoteText(e.target.value)}
+                      placeholder="Add a note (visible to all coaches sharing this client)…"/>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 }}>
+              <span style={{ fontSize: 10, color: 'var(--ink-3)' }}>Synced to cloud · visible to KH, DR</span>
+              <button className="btn btn-sm" onClick={submitNote}>Post</button>
+            </div>
+          </div>
+          {notes.map((n, i) => (
+            <div key={i} className="note-item">
+              <div className="note-item-meta">
+                <span>{n.author}</span>
+                <span>{n.date}</span>
+              </div>
+              {n.text}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ExercisePicker({ onPick, onClose }) {
+  const [search, setSearch] = React.useState('');
+  const [pattern, setPattern] = React.useState('all');
+  const filtered = window.EXERCISES.filter(e => {
+    if (pattern !== 'all' && e.pattern !== pattern) return false;
+    if (search && !e.name.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+  return (
+    <div className="picker-overlay" onClick={onClose}>
+      <div className="picker" onClick={(e) => e.stopPropagation()}>
+        <div className="picker-head">
+          <div className="picker-title">Pick Exercise</div>
+          <button className="action-btn" onClick={onClose} style={{ fontSize: 16, color: 'var(--ink-2)' }}>✕</button>
+        </div>
+        <div style={{ padding: '12px 18px' }}>
+          <input className="picker-search" autoFocus
+                 value={search} onChange={(e) => setSearch(e.target.value)}
+                 placeholder="Search 150+ exercises…"/>
+        </div>
+        <div className="picker-filters">
+          <button className="lib-chip" data-active={pattern === 'all'} onClick={() => setPattern('all')}>All</button>
+          {window.PATTERNS.map(p => (
+            <button key={p} className="lib-chip" data-active={pattern === p} onClick={() => setPattern(p)}>{p}</button>
+          ))}
+        </div>
+        <div className="picker-list">
+          {filtered.slice(0, 60).map(e => (
+            <div key={e.id} className="picker-item" onClick={() => onPick(e)}>
+              <div>
+                <div className="picker-item-name">{e.name}</div>
+                <div className="picker-item-meta">{e.muscles.join(' · ')}</div>
+              </div>
+              <span className="lib-mini-tag">{e.equipment}</span>
+              <span className="lib-mini-tag">
+                <span className="lib-level-dot" data-level={e.level}/>{e.level}
+              </span>
+            </div>
+          ))}
+          {filtered.length === 0 && <div style={{ padding: 30, color: 'var(--ink-3)', textAlign: 'center' }}>No matches.</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Generate a basic placeholder program for non-Marcus clients so the sheet is meaningful.
+function makeFallbackProgram(client) {
+  return {
+    clientId: client.id,
+    block: client.block,
+    week: client.week, totalWeeks: client.totalWeeks,
+    days: [
+      {
+        id: 'd1', name: 'Lower — Squat Focus', day: 'Mon', status: 'logged', date: 'Apr 27',
+        exercises: [
+          { id: 'sq-back', sets: [
+            { reps: 5, weight: Math.round((client.bestLifts['sq-back'] || 200) * 0.7), rpe: 7, done: true },
+            { reps: 5, weight: Math.round((client.bestLifts['sq-back'] || 200) * 0.78), rpe: 8, done: true },
+            { reps: 5, weight: Math.round((client.bestLifts['sq-back'] || 200) * 0.82), rpe: 8.5, done: true },
+          ], targetReps: 5, suggestion: Math.round((client.bestLifts['sq-back'] || 200) * 0.85), last: Math.round((client.bestLifts['sq-back'] || 200) * 0.82) },
+          { id: 'hi-rdl', sets: [
+            { reps: 8, weight: 135, rpe: 7, done: true },
+            { reps: 8, weight: 135, rpe: 8, done: true },
+            { reps: 8, weight: 135, rpe: 8, done: true },
+          ], targetReps: 8, suggestion: 145, last: 135 },
+          { id: 'sq-bulg', sets: [
+            { reps: 10, weight: 35, rpe: 7, done: true },
+            { reps: 10, weight: 35, rpe: 7.5, done: true },
+            { reps: 10, weight: 35, rpe: 8, done: true },
+          ], targetReps: 10, suggestion: 40, last: 35 },
+        ],
+      },
+      {
+        id: 'd2', name: 'Upper — Push Focus', day: 'Wed', status: 'logged', date: 'Apr 29',
+        exercises: [
+          { id: 'pu-db-bench', sets: [
+            { reps: 8, weight: 50, rpe: 7, done: true },
+            { reps: 8, weight: 50, rpe: 8, done: true },
+            { reps: 8, weight: 50, rpe: 8, done: true },
+          ], targetReps: 8, suggestion: 55, last: 50 },
+          { id: 'pu-db-ohp', sets: [
+            { reps: 10, weight: 30, rpe: 7, done: true },
+            { reps: 10, weight: 30, rpe: 7.5, done: true },
+            { reps: 10, weight: 30, rpe: 8, done: true },
+          ], targetReps: 10, suggestion: 32, last: 30 },
+          { id: 'pl-cable-row', sets: [
+            { reps: 12, weight: 100, rpe: 7, done: true },
+            { reps: 12, weight: 100, rpe: 8, done: true },
+            { reps: 12, weight: 100, rpe: 8, done: true },
+          ], targetReps: 12, suggestion: 110, last: 100 },
+        ],
+      },
+      {
+        id: 'd3', name: 'Today\'s Session', day: 'Today', status: 'in_progress', date: 'May 3',
+        exercises: [
+          { id: 'sq-back', sets: [
+            { reps: 5, weight: 0, rpe: null, done: false },
+            { reps: 5, weight: 0, rpe: null, done: false },
+            { reps: 5, weight: 0, rpe: null, done: false },
+          ], targetReps: 5, suggestion: Math.round((client.bestLifts['sq-back'] || 200) * 0.85), last: Math.round((client.bestLifts['sq-back'] || 200) * 0.82) },
+          { id: 'pu-db-bench', sets: [
+            { reps: 8, weight: 0, rpe: null, done: false },
+            { reps: 8, weight: 0, rpe: null, done: false },
+            { reps: 8, weight: 0, rpe: null, done: false },
+          ], targetReps: 8, suggestion: 55, last: 50 },
+        ],
+      },
+    ],
+    notes: [
+      { date: 'Apr 30', author: 'You', text: `${client.name.split(' ')[0]} reported solid recovery this week. Good time to push intensity.` },
+    ],
+  };
+}
+
+window.Sheet = Sheet;
+
+
+</script>
+
+<script type="text/babel">
+function App() {
+  const { TweaksPanel, TweakSection, TweakRadio, TweakColor, TweakToggle, TweakSelect } = window;
+  const { Sidebar, Topbar, Roster, Sheet, Library } = window;
+  const [view, setView] = React.useState('roster');
+  const [clientId, setClientId] = React.useState('mar');
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [theme, setTheme] = React.useState('dark');
+  const [accent, setAccent] = React.useState('#E8FF3A');
+  const [showNotes, setShowNotes] = React.useState(true);
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.style.setProperty('--accent', accent);
+  }, [theme, accent]);
+
+  const currentClient = window.CLIENTS.find(c => c.id === clientId) || window.CLIENTS[0];
+
+  return (
+    <div className="app">
+      <Sidebar view={view} setView={setView}
+               currentClientId={clientId} setClientId={setClientId}/>
+      <div className="main">
+        <Topbar view={view} currentClient={currentClient}
+                onSettingsToggle={() => setSettingsOpen(v => !v)}/>
+        <div className="content">
+          {view === 'roster'  && <Roster setView={setView} setClientId={setClientId}/>}
+          {view === 'sheet'   && <Sheet client={currentClient} showNotesCol={showNotes}/>}
+          {view === 'library' && <Library/>}
+        </div>
+      </div>
+
+      <TweaksPanel title="Settings" open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+        <TweakSection label="Theme"/>
+        <TweakRadio label="Mode" value={theme} options={['dark','light']}
+                    onChange={setTheme}/>
+        <TweakColor label="Accent" value={accent}
+                    onChange={setAccent}/>
+        <TweakSection label="Sheet"/>
+        <TweakToggle label="Show notes column" value={showNotes}
+                     onChange={setShowNotes}/>
+        <TweakSection label="Active client"/>
+        <TweakSelect label="View as"
+                     value={clientId}
+                     options={window.CLIENTS.map(c => ({ value: c.id, label: c.name }))}
+                     onChange={setClientId}/>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App/>);
+</script>
+</body>
+</html>
