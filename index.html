@@ -895,14 +895,144 @@ body {
 .picker-item-name { font-size: 13px; font-weight: 500; }
 .picker-item-meta { font-size: 10.5px; color: var(--ink-3); }
 
+/* ── Modal ─────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000;
+}
+.modal {
+  background: var(--bg-1);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  width: 480px; max-width: calc(100vw - 32px);
+  display: flex; flex-direction: column;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--line);
+}
+.modal-title { font-family: 'Archivo Black', sans-serif; font-size: 16px; }
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-field { display: flex; flex-direction: column; gap: 5px; }
+.modal-field label { font-size: 10.5px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+.modal-field input {
+  background: var(--bg-2); border: 1px solid var(--line-2);
+  color: var(--ink); border-radius: 5px;
+  padding: 8px 10px; font-size: 13px;
+  font-family: inherit; outline: none;
+}
+.modal-field input:focus { border-color: var(--accent); }
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 8px;
+  padding: 14px 20px; border-top: 1px solid var(--line);
+}
+.accent-swatches { display: flex; gap: 8px; padding: 2px 0; }
+.accent-swatch {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer; padding: 0;
+  transition: transform 0.1s;
+}
+.accent-swatch[data-active="true"] { border-color: var(--ink); transform: scale(1.15); }
+.btn-icon {
+  background: none; border: none; cursor: pointer; color: var(--ink-3);
+  width: 26px; height: 26px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.btn-icon:hover { color: var(--ink); background: var(--bg-3); }
+
+/* ── Auth / Setup screens ───────────────────────────────────────── */
+.login-screen, .setup-screen, .loading-screen {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.login-card {
+  background: var(--bg-1); border: 1px solid var(--line-2);
+  border-radius: 12px; padding: 36px 32px;
+  width: 360px; max-width: calc(100vw - 32px);
+  display: flex; flex-direction: column; gap: 22px;
+}
+.login-brand { display: flex; align-items: center; gap: 10px; }
+.login-form { display: flex; flex-direction: column; gap: 14px; }
+.login-field { display: flex; flex-direction: column; gap: 6px; }
+.login-field label { font-size: 10.5px; color: var(--ink-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+.login-field input {
+  background: var(--bg-2); border: 1px solid var(--line-2);
+  color: var(--ink); border-radius: 5px;
+  padding: 10px 12px; font-size: 13px;
+  font-family: inherit; outline: none; width: 100%;
+}
+.login-field input:focus { border-color: var(--accent); }
+.login-error {
+  font-size: 12px; color: var(--accent-2);
+  background: rgba(255,107,44,0.1); padding: 8px 10px; border-radius: 4px;
+}
+.login-toggle { font-size: 12px; color: var(--ink-3); text-align: center; }
+.link-btn { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 12px; padding: 0; font-family: inherit; }
+.link-btn:hover { text-decoration: underline; }
+.setup-card {
+  background: var(--bg-1); border: 1px solid var(--line-2);
+  border-radius: 12px; padding: 40px 36px;
+  width: 540px; max-width: calc(100vw - 32px);
+  display: flex; flex-direction: column; gap: 20px;
+}
+.setup-title { font-family: 'Archivo Black', sans-serif; font-size: 22px; }
+.setup-body { font-size: 13px; color: var(--ink-2); line-height: 1.75; }
+.setup-body ol { padding-left: 20px; margin: 10px 0 0; display: flex; flex-direction: column; gap: 5px; }
+.setup-body code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-3); padding: 1px 5px; border-radius: 3px; font-size: 11.5px;
+}
+.loading-mark {
+  font-family: 'Archivo Black', sans-serif; font-size: 52px; color: var(--accent);
+  animation: chalkanim 1.2s ease-in-out infinite;
+}
+@keyframes chalkanim { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+
 </style>
 </head>
 <body>
 <div id="app"></div>
 
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+//  FIREBASE CONFIG
+//  1. Go to console.firebase.google.com → create a project
+//  2. Add a Web App → copy your firebaseConfig object
+//  3. Enable Authentication → Sign-in method → Email/Password
+//  4. Enable Firestore Database (start in test mode)
+//  5. Replace null below with your config object, save, re-deploy
+// ─────────────────────────────────────────────────────────────────────────────
+const FIREBASE_CONFIG = null;
+// const FIREBASE_CONFIG = {
+//   apiKey: "AIza...",
+//   authDomain: "your-project.firebaseapp.com",
+//   projectId: "your-project",
+//   storageBucket: "your-project.appspot.com",
+//   messagingSenderId: "123456789",
+//   appId: "1:123456789:web:abc123"
+// };
+
+window.__firebaseReady = false;
+window.__db = null;
+window.__auth = null;
+
+if (FIREBASE_CONFIG) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  window.__db = firebase.firestore();
+  window.__auth = firebase.auth();
+  window.__firebaseReady = true;
+}
+</script>
 
 <script type="text/babel">
 
@@ -1783,8 +1913,7 @@ const Sparkline = ({ data, color = 'currentColor', fill = true, h = 80 }) => {
 };
 
 // Sidebar
-function Sidebar({ view, setView, currentClientId, setClientId }) {
-  const clients = window.CLIENTS;
+function Sidebar({ view, setView, clients, currentClientId, setClientId, authUser, onSignOut }) {
   return (
     <div className="sidebar">
       <div className="sb-brand">
@@ -1843,11 +1972,15 @@ function Sidebar({ view, setView, currentClientId, setClientId }) {
         </div>
       </div>
 
-      <div className="sb-coach">
-        <div className="sb-coach-avatar">KM</div>
-        <div>
-          <div className="sb-coach-name">Coach Morgan</div>
-          <div className="sb-coach-role">Head Coach · Iron House</div>
+      <div className="sb-coach" style={{ cursor: 'pointer' }} title="Sign out" onClick={onSignOut}>
+        <div className="sb-coach-avatar">
+          {authUser ? authUser.email.slice(0,2).toUpperCase() : 'CO'}
+        </div>
+        <div style={{ overflow: 'hidden' }}>
+          <div className="sb-coach-name" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {authUser ? authUser.email.split('@')[0] : 'Coach'}
+          </div>
+          <div className="sb-coach-role">Sign out</div>
         </div>
       </div>
     </div>
@@ -1898,8 +2031,7 @@ Object.assign(window, { Icon, Sparkline, Sidebar, Topbar });
 
 // Roster (dashboard) view
 
-function Roster({ setView, setClientId }) {
-  const clients = window.CLIENTS;
+function Roster({ clients, setView, setClientId, onAddClient }) {
   const totalClients = clients.length;
   const avgAdherence = Math.round(clients.reduce((a, c) => a + c.adherence, 0) / clients.length * 100);
   const sessionsToday = clients.filter(c => c.lastSeen === 'Today').length;
@@ -1915,7 +2047,7 @@ function Roster({ setView, setClientId }) {
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button className="btn btn-secondary"><Icon name="filter" size={11}/> Filter</button>
-          <button className="btn"><Icon name="plus" size={12}/> New Client</button>
+          <button className="btn" onClick={onAddClient}><Icon name="plus" size={12}/> New Client</button>
         </div>
       </div>
 
@@ -2103,6 +2235,173 @@ function Library({ onAdd }) {
 window.Library = Library;
 
 
+
+// ── New Client Modal ─────────────────────────────────────────────────────────
+function NewClientModal({ onClose, onSave }) {
+  const [name, setName] = React.useState('');
+  const [goal, setGoal] = React.useState('');
+  const [bw, setBw] = React.useState('');
+  const [block, setBlock] = React.useState('Foundation');
+  const [totalWeeks, setTotalWeeks] = React.useState(8);
+  const [accent, setAccent] = React.useState('#E8FF3A');
+  const ACCENTS = ['#E8FF3A','#FF7A3A','#3AE0FF','#FF3A8E','#9EFF3A','#A855F7'];
+
+  const save = () => {
+    if (!name.trim()) return;
+    const words = name.trim().split(/\s+/);
+    const initials = words.length >= 2
+      ? (words[0][0] + words[words.length-1][0]).toUpperCase()
+      : name.trim().slice(0,2).toUpperCase();
+    onSave({
+      id: 'c_' + Date.now().toString(36),
+      name: name.trim(), initials,
+      goal: goal.trim() || 'General fitness',
+      block: block.trim() || 'Foundation',
+      week: 1, totalWeeks: Number(totalWeeks) || 8,
+      adherence: 1.0, sessionsThisWeek: 0, sessionsPlanned: 3,
+      bw: Number(bw) || 0, lastSeen: 'Never',
+      bestLifts: {}, accent, coach: 'You', sharedWith: [],
+    });
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={e => e.stopPropagation()}>
+        <div className="modal-head">
+          <div className="modal-title">New Client</div>
+          <button className="btn-icon" onClick={onClose}>✕</button>
+        </div>
+        <div className="modal-body">
+          <div className="modal-field">
+            <label>Full Name *</label>
+            <input value={name} onChange={e => setName(e.target.value)}
+                   placeholder="Alex Johnson" autoFocus/>
+          </div>
+          <div className="modal-field">
+            <label>Goal</label>
+            <input value={goal} onChange={e => setGoal(e.target.value)}
+                   placeholder="Powerlifting meet, general strength…"/>
+          </div>
+          <div className="modal-row">
+            <div className="modal-field">
+              <label>Body Weight (lb)</label>
+              <input type="number" value={bw} onChange={e => setBw(e.target.value)} placeholder="155"/>
+            </div>
+            <div className="modal-field">
+              <label>Program Length (wks)</label>
+              <input type="number" value={totalWeeks} onChange={e => setTotalWeeks(e.target.value)} min={1} max={52}/>
+            </div>
+          </div>
+          <div className="modal-field">
+            <label>Starting Block</label>
+            <input value={block} onChange={e => setBlock(e.target.value)} placeholder="Foundation, Hypertrophy…"/>
+          </div>
+          <div className="modal-field">
+            <label>Accent Color</label>
+            <div className="accent-swatches">
+              {ACCENTS.map(c => (
+                <button key={c} className="accent-swatch"
+                        data-active={String(accent === c)}
+                        style={{ background: c }} onClick={() => setAccent(c)}/>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn" onClick={save} disabled={!name.trim()}>Add Client</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+window.NewClientModal = NewClientModal;
+
+// ── Login Screen ─────────────────────────────────────────────────────────────
+function LoginScreen() {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [mode, setMode] = React.useState('login');
+  const [error, setError] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setLoading(true); setError('');
+    try {
+      if (mode === 'signup') {
+        await window.__auth.createUserWithEmailAndPassword(email, password);
+      } else {
+        await window.__auth.signInWithEmailAndPassword(email, password);
+      }
+    } catch (err) {
+      setError(err.message.replace('Firebase: ', ''));
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="login-screen">
+      <div className="login-card">
+        <div className="login-brand">
+          <div className="sb-brand-mark">C</div>
+          <div>
+            <div className="sb-brand-name">CHALK</div>
+            <div className="sb-brand-sub">Coach OS · v3.2</div>
+          </div>
+        </div>
+        <form className="login-form" onSubmit={submit}>
+          <div className="login-field">
+            <label>Email</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)}
+                   placeholder="coach@gym.com" required autoFocus/>
+          </div>
+          <div className="login-field">
+            <label>Password</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
+                   placeholder="••••••••" required/>
+          </div>
+          {error && <div className="login-error">{error}</div>}
+          <button className="btn" type="submit" disabled={loading} style={{ width: '100%' }}>
+            {loading ? 'Please wait…' : mode === 'login' ? 'Sign In' : 'Create Account'}
+          </button>
+        </form>
+        <div className="login-toggle">
+          {mode === 'login' ? (
+            <>No account? <button className="link-btn" type="button" onClick={() => { setMode('signup'); setError(''); }}>Create one</button></>
+          ) : (
+            <>Have an account? <button className="link-btn" type="button" onClick={() => { setMode('login'); setError(''); }}>Sign in</button></>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+window.LoginScreen = LoginScreen;
+
+// ── Setup Screen (shown when Firebase not configured) ─────────────────────────
+function SetupScreen() {
+  return (
+    <div className="setup-screen">
+      <div className="setup-card">
+        <div className="sb-brand-mark" style={{ fontSize: 28, width: 48, height: 48 }}>C</div>
+        <div className="setup-title">Connect Your Database</div>
+        <div className="setup-body">
+          <p>CHALK needs a free Firebase project to save data and support multiple coaches.</p>
+          <ol>
+            <li>Go to <strong>console.firebase.google.com</strong> → create a project</li>
+            <li>Add a <strong>Web App</strong> → copy the <code>firebaseConfig</code> object</li>
+            <li>Enable <strong>Authentication → Email/Password</strong></li>
+            <li>Enable <strong>Firestore Database</strong> (start in test mode)</li>
+            <li>Open <code>index.html</code>, find <code>const FIREBASE_CONFIG = null;</code></li>
+            <li>Replace <code>null</code> with your config object and re-deploy</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  );
+}
+window.SetupScreen = SetupScreen;
 
 // Sheet view — the workhorse: program builder + inline logging + PO + dashboard widgets + notes
 
@@ -2600,48 +2899,141 @@ window.Sheet = Sheet;
 <script type="text/babel">
 function App() {
   const { TweaksPanel, TweakSection, TweakRadio, TweakColor, TweakToggle, TweakSelect } = window;
-  const { Sidebar, Topbar, Roster, Sheet, Library } = window;
+  const { Sidebar, Topbar, Roster, Sheet, Library, NewClientModal, LoginScreen, SetupScreen } = window;
+
   const [view, setView] = React.useState('roster');
-  const [clientId, setClientId] = React.useState('mar');
+  const [clientId, setClientId] = React.useState(null);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [theme, setTheme] = React.useState('dark');
   const [accent, setAccent] = React.useState('#E8FF3A');
   const [showNotes, setShowNotes] = React.useState(true);
+
+  // Firebase state
+  const [authUser, setAuthUser] = React.useState(undefined); // undefined = checking auth
+  const [clients, setClients] = React.useState([]);
+  const [newClientOpen, setNewClientOpen] = React.useState(false);
 
   React.useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.style.setProperty('--accent', accent);
   }, [theme, accent]);
 
-  const currentClient = window.CLIENTS.find(c => c.id === clientId) || window.CLIENTS[0];
+  // Auth listener
+  React.useEffect(() => {
+    if (!window.__firebaseReady) { setAuthUser(null); return; }
+    return window.__auth.onAuthStateChanged(user => setAuthUser(user));
+  }, []);
+
+  // Load clients from Firestore
+  React.useEffect(() => {
+    if (!window.__firebaseReady || !authUser) return;
+    const unsub = window.__db.collection('clients').orderBy('createdAt', 'asc').onSnapshot(snap => {
+      if (snap.empty) {
+        // First login — seed with sample clients
+        const batch = window.__db.batch();
+        window.CLIENTS.forEach((c, i) => {
+          const ref = window.__db.collection('clients').doc(c.id);
+          batch.set(ref, { ...c, createdAt: new Date(Date.now() + i) });
+        });
+        batch.commit();
+      } else {
+        const loaded = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+        setClients(loaded);
+        setClientId(prev => prev || loaded[0]?.id || null);
+      }
+    });
+    return unsub;
+  }, [authUser]);
+
+  const handleAddClient = async (data) => {
+    if (window.__firebaseReady) {
+      await window.__db.collection('clients').doc(data.id).set({
+        ...data, createdAt: new Date()
+      });
+    } else {
+      // No Firebase — update local state only
+      window.CLIENTS = [...window.CLIENTS, data];
+      setClients(prev => [...prev, data]);
+    }
+    setClientId(data.id);
+    setView('sheet');
+    setNewClientOpen(false);
+  };
+
+  const handleSignOut = () => {
+    if (window.__firebaseReady) window.__auth.signOut();
+  };
+
+  // No Firebase configured — show setup instructions
+  if (!window.__firebaseReady) {
+    // Still usable with local-only state (no persistence)
+    const localClients = clients.length ? clients : window.CLIENTS;
+    const currentClient = localClients.find(c => c.id === clientId) || localClients[0];
+    return (
+      <div className="app">
+        <Sidebar view={view} setView={setView} clients={localClients}
+                 currentClientId={clientId} setClientId={setClientId}
+                 authUser={null} onSignOut={() => {}}/>
+        <div className="main">
+          <Topbar view={view} currentClient={currentClient}
+                  onSettingsToggle={() => setSettingsOpen(v => !v)}/>
+          <div className="content">
+            {view === 'roster'  && <Roster clients={localClients} setView={setView} setClientId={setClientId} onAddClient={() => setNewClientOpen(true)}/>}
+            {view === 'sheet'   && <Sheet client={currentClient} showNotesCol={showNotes}/>}
+            {view === 'library' && <Library/>}
+          </div>
+        </div>
+        {newClientOpen && <NewClientModal onClose={() => setNewClientOpen(false)} onSave={handleAddClient}/>}
+        <TweaksPanel title="Settings" open={settingsOpen} onClose={() => setSettingsOpen(false)}>
+          <TweakSection label="Theme"/>
+          <TweakRadio label="Mode" value={theme} options={['dark','light']} onChange={setTheme}/>
+          <TweakColor label="Accent" value={accent} onChange={setAccent}/>
+          <TweakSection label="Sheet"/>
+          <TweakToggle label="Show notes column" value={showNotes} onChange={setShowNotes}/>
+        </TweaksPanel>
+      </div>
+    );
+  }
+
+  // Checking auth state
+  if (authUser === undefined) {
+    return <div className="loading-screen"><div className="loading-mark">C</div></div>;
+  }
+
+  // Not logged in
+  if (!authUser) {
+    return <LoginScreen/>;
+  }
+
+  const currentClient = clients.find(c => c.id === clientId) || clients[0];
 
   return (
     <div className="app">
-      <Sidebar view={view} setView={setView}
-               currentClientId={clientId} setClientId={setClientId}/>
+      <Sidebar view={view} setView={setView} clients={clients}
+               currentClientId={clientId} setClientId={setClientId}
+               authUser={authUser} onSignOut={handleSignOut}/>
       <div className="main">
         <Topbar view={view} currentClient={currentClient}
                 onSettingsToggle={() => setSettingsOpen(v => !v)}/>
         <div className="content">
-          {view === 'roster'  && <Roster setView={setView} setClientId={setClientId}/>}
+          {view === 'roster'  && <Roster clients={clients} setView={setView} setClientId={setClientId} onAddClient={() => setNewClientOpen(true)}/>}
           {view === 'sheet'   && <Sheet client={currentClient} showNotesCol={showNotes}/>}
           {view === 'library' && <Library/>}
         </div>
       </div>
 
+      {newClientOpen && <NewClientModal onClose={() => setNewClientOpen(false)} onSave={handleAddClient}/>}
+
       <TweaksPanel title="Settings" open={settingsOpen} onClose={() => setSettingsOpen(false)}>
         <TweakSection label="Theme"/>
-        <TweakRadio label="Mode" value={theme} options={['dark','light']}
-                    onChange={setTheme}/>
-        <TweakColor label="Accent" value={accent}
-                    onChange={setAccent}/>
+        <TweakRadio label="Mode" value={theme} options={['dark','light']} onChange={setTheme}/>
+        <TweakColor label="Accent" value={accent} onChange={setAccent}/>
         <TweakSection label="Sheet"/>
-        <TweakToggle label="Show notes column" value={showNotes}
-                     onChange={setShowNotes}/>
+        <TweakToggle label="Show notes column" value={showNotes} onChange={setShowNotes}/>
         <TweakSection label="Active client"/>
         <TweakSelect label="View as"
                      value={clientId}
-                     options={window.CLIENTS.map(c => ({ value: c.id, label: c.name }))}
+                     options={clients.map(c => ({ value: c.id, label: c.name }))}
                      onChange={setClientId}/>
       </TweaksPanel>
     </div>
